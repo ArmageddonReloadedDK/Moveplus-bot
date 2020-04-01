@@ -1,6 +1,6 @@
 from enum import Enum
 
-token = 'Token'
+token = '616126274:AAGlRipQWcuwhgHdd83ThFvKchNfrf9ybqA'
 db_file = "database.vdb"
 db_vars = "varbase.vdb"
 
@@ -17,6 +17,9 @@ class States(Enum):
     S_ENTER_VKURL = "8"
     S_ENTER_STOP = '9'
     S_ENTER_RiGHT = '10'
+    S_busy='11'
+    S_busy_org = '13'
+    S_not_busy='12'
 
 
 
@@ -30,3 +33,6 @@ class Questions(Enum):
     Date = 'Дальше - дата рождения в формате xx.xx.xxxx'
     Vk = 'И последнее. Скинь ссылку на твой вк'
     Stop = 'От души. Надеюсь, ты не ошибся(-лась) нигде. Но если ошибся(-лась) -\n тебе сюда @ArmageddonReloaded. \nТеперь с чистой совестью проходи /start'
+
+class admin(Enum):
+    Dav=287157997

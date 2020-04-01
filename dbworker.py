@@ -7,9 +7,11 @@ import sqlite3
 
 def get_state(user_id):
     with Vedis(config.db_file) as db:
+      try:
         c = db[user_id].decode()
-
         return c
+      except Exception:
+        return None
 
 
 def set_state(user_id, value):
@@ -25,9 +27,11 @@ def set_state(user_id, value):
 
 def get_var(user_id, var):
     with Vedis(config.db_file) as db:
-        c = db[str(user_id) + var].decode()
-
-        return c
+       try:
+         c = db[str(user_id) + var].decode()
+         return c
+       except Exception:
+           return False
 
 
 def set_var(user_id, var, value):
