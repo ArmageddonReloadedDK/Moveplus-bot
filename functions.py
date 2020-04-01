@@ -35,5 +35,13 @@ def reg_type(msg):
     rows = cursor.fetchall()
     return rows[0][0]
 
+def state(x):
+    if x==0:
+        return 'Не прибыл'
+    if x==1:
+        return 'Прибыл'
+    if x==2:
+        return 'Покинул'
+
 
 
