@@ -1,7 +1,7 @@
 from vedis import Vedis
 import config
 import datetime
-import sqlite3
+
 
 
 
@@ -48,7 +48,6 @@ def set_var(user_id, var, value):
 def set_none(user_id):
     global a
     with Vedis(config.db_file) as db:
-        try:
 
             db[str(user_id) + 'Name'] = 0
             db[str(user_id) + 'Middle'] = 0
@@ -62,10 +61,6 @@ def set_none(user_id):
             db[str(user_id) + 'flag_stop'] = 0
             db[str(user_id) + 'len'] = 0
 
-
-
-        except Exception:
-            return False
 
 
 def validate(date_text):
