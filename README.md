@@ -1,7 +1,29 @@
-# Telegram-event-registration-bot
-Specific telegram bot which provides event registration process. In the end of the dialog the bot sends queries to local host postgresql database. Also to configure user state bot uses Vedis file-database.
+# Move_plus telegram-bot
 
-How it works:
-To make registration dialog possible, every time,when user give information about himself, bot changes state-variable in Vedis database. Then, next message-handler compares user state-variable and variable, wich is constant to current handler. If it is tue, next handler again changes state-variable and starts to work with last user's messag.
+Это бот для помощи при организациии мероприятий на платформе Move_pus.
 
-This product was finished only with help of my testers-team. Thks to AC. :) 
+Установка
+=========
+
+Для начала работы нужно создать базу данных.
+
+1) Установите PostgreSQL
+
+2) создайте базу данных и пользователя
+   ```shell script
+   create user with encrypted password "password"
+   create database database_name
+   ```
+    
+3) установите python версии 2.7 либо установите [anaconda](https://www.anaconda.com/products/individual)
+ и создайте глобальное окружение 
+    ```shell script
+    conda create -n env_name python=3.6
+    ```
+4) установите необходимые модули для python
+    ```shell script
+    activate env_name #если используете окружение анаконды
+    pip install telebot
+    pip install cython vedis
+    pip install psycopg2
+    ```
