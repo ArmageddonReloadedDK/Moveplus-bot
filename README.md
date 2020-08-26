@@ -15,7 +15,7 @@
    create database database_name
    ```
     
-3) установите python версии 2.7 либо установите [anaconda](https://www.anaconda.com/products/individual)
+3) установите python версии 2.7 и выше либо установите [anaconda](https://www.anaconda.com/products/individual), нажав при установке Add to global PATH, 
  и создайте глобальное окружение 
     ```shell script
     conda create -n env_name python=3.6
