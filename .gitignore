@@ -2,3 +2,5 @@
 /workspace.xml
 /.idea/*
 /__pycache__/*
+handlers/__init__.py
+database/__init__.py

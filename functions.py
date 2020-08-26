@@ -2,9 +2,11 @@ import psycopg2
 import telebot
 import config
 import dbworker
+
+
 connection = psycopg2.connect(database="Events",
                               user="postgres",
-                              password="123",
+                              password="postgres",
                               host="localhost",
                               port="5432")
 cursor = connection.cursor()

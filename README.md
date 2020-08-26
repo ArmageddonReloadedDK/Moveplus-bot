@@ -23,10 +23,13 @@
 4) установите необходимые модули для python
     ```shell script
     activate env_name #если используете окружение анаконды
-    pip install telebot
+    pip install pyTelegramBotAPI
     pip install cython vedis
     pip install psycopg2
+    pip install pillow
     ```
+
+В данном проекте задействована библиотека  [Vedis](https://vedis-python.readthedocs.io/en/latest/), которая является продолжением базы данных вида ключ-значение Redis 
 
 Благодарности
 -------------

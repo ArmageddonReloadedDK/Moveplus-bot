@@ -18,7 +18,7 @@ bot = telebot.TeleBot(config.token)
 
 connection = psycopg2.connect(database="Events",
                               user="postgres",
-                              password="123",
+                              password="postgres",
                               host="localhost",
                               port="5432")
 cursor = connection.cursor()
@@ -109,12 +109,16 @@ key.add(key_no_button)
 def chang1(msg):
     if func.work_type(msg, 1):
         if not func.reg_type(msg) or func.reg_type(msg) is None:
-            cursor.execute(''' update organizators set regist=True where org_id=(select p.p_id from ev_people p where p.chat_id='%s') ''' % (msg.chat.id))
+            cursor.execute(
+                ''' update organizators set regist=True where org_id=(select p.p_id from ev_people p where p.chat_id='%s') ''' % (
+                    msg.chat.id))
             connection.commit()
             bot.send_message(msg.chat.id, 'Статус изменен на True. Вам будут приходить заявки о выселении')
 
         else:
-            cursor.execute(''' update organizators set regist=FALSE where org_id=(select p.p_id from ev_people p where p.chat_id='%s') ''' % (msg.chat.id))
+            cursor.execute(
+                ''' update organizators set regist=FALSE where org_id=(select p.p_id from ev_people p where p.chat_id='%s') ''' % (
+                    msg.chat.id))
             connection.commit()
             bot.send_message(msg.chat.id, 'Статус изменен на False. Заявки больше не будут приходить ')
     else:
@@ -123,7 +127,7 @@ def chang1(msg):
 
 @bot.message_handler(commands=['change'])
 def chang1(msg):
-    if func.inform_state(msg) and func.work_type(msg,1):
+    if func.inform_state(msg) and func.work_type(msg, 1):
         bot.send_message(msg.chat.id, 'Введи номер человека, у которого нужно изменить статус привилегий')
         bot.register_next_step_handler(msg, chang2)
     else:
@@ -201,7 +205,7 @@ def leave1(msg):
 
 @bot.message_handler(commands=['info'])
 def text(msg):
-    if func.inform_state(msg)  and func.work_type(msg,1):
+    if func.inform_state(msg) and func.work_type(msg, 1):
         bot.send_message(msg.chat.id, 'Введи текст, который будет отправлен всем участникам')
         bot.register_next_step_handler(msg, info)
     else:
@@ -222,7 +226,7 @@ def info(msg):
 
 @bot.message_handler(commands=['add'])
 def add(msg):
-    if (func.inform_state(msg) and func.work_type(msg,1)) or msg.chat.id==config.admin.Dav.value:
+    if (func.inform_state(msg) and func.work_type(msg, 1)) or msg.chat.id == config.admin.Dav.value:
         bot.send_message(msg.chat.id, 'Введите номер человека, которого нужно добавить ')
         bot.register_next_step_handler(msg, add2)
     else:
@@ -247,7 +251,7 @@ def add2(msg):
 
 @bot.message_handler(commands=['surname'])
 def add(msg):
-    if func.work_type(msg,1):
+    if func.work_type(msg, 1):
         bot.send_message(msg.chat.id, 'Введите фамилию человека, которого нужно найти ')
         bot.register_next_step_handler(msg, add3)
     else:
@@ -274,11 +278,12 @@ def add3(msg):
 
 @bot.message_handler(commands=['roomnum'])
 def add(msg):
-    if func.work_type(msg,1):
+    if func.work_type(msg, 1):
         bot.send_message(msg.chat.id, 'Введите номер комнаты ')
         bot.register_next_step_handler(msg, add22)
     else:
         func.no_permis(msg)
+
 
 def add22(msg):
     try:
@@ -299,7 +304,7 @@ def add22(msg):
 
 @bot.message_handler(commands=['help'])
 def start_message1(msg):
-    if func.work_type(msg,1):
+    if func.work_type(msg, 1):
         bot.send_message(msg.chat.id,
                          'Бот в процессе разработки.Доступные команды: \n/lmoder - список модераторов\n/add - добавить модератора\n'
                          '/change - изменить статус модератора\n/listreg - список выселяющих организаторов\n/surname - поиск людей по фамилии\n'
@@ -313,7 +318,7 @@ def start_message1(msg):
 
 @bot.message_handler(commands=['write'])
 def start_message1(msg):
-    if func.work_type(msg,1):
+    if func.work_type(msg, 1):
         bot.send_message(msg.chat.id, 'Введи номер человека, кому нужно написать ')
         bot.register_next_step_handler(msg, num)
     else:
@@ -342,7 +347,7 @@ def mes(msg):
 
 @bot.message_handler(commands=['lmoder'])
 def peopleshow(msg):
-    if func.work_type(msg,1):
+    if func.work_type(msg, 1):
         cursor.execute("""select p.first_name,p.middle_name,s.inform from spec s,ev_people p where p.p_id=s.spec_id""")
         rows = cursor.fetchall()
         for r in rows:
@@ -353,11 +358,13 @@ def peopleshow(msg):
 
 @bot.message_handler(commands=['listreg'])
 def peopleshow(msg):
-    if func.work_type(msg,1):
-        cursor.execute("""select count(p.p_id) from ev_people p,organizators org where org.regist=true and org.org_id=p.p_id """)
+    if func.work_type(msg, 1):
+        cursor.execute(
+            """select count(p.p_id) from ev_people p,organizators org where org.regist=true and org.org_id=p.p_id """)
         rows = cursor.fetchall()
         bot.send_message(msg.chat.id, ' Количество выселяющих:%s' % (rows[0][0]))
-        cursor.execute("""select p.first_name,p.middle_name from ev_people p,organizators org where org.regist=true and org.org_id=p.p_id""")
+        cursor.execute(
+            """select p.first_name,p.middle_name from ev_people p,organizators org where org.regist=true and org.org_id=p.p_id""")
         rows = cursor.fetchall()
         for r in rows:
             bot.send_message(msg.chat.id, (f"  {r[1]}  {r[0]}   "))
@@ -367,7 +374,7 @@ def peopleshow(msg):
 
 @bot.message_handler(commands=['count'])
 def peopleshow(msg):
-    if func.work_type(msg,1):
+    if func.work_type(msg, 1):
         cursor.execute("""select count(*) from ev_people """)
         rows = cursor.fetchall()
         for r in rows:
@@ -405,18 +412,18 @@ def start_message(msg):
 
 
 def login(msg):
-
     bot.send_message(msg.chat.id, 'Изменение статуса произошло успешно.\nПереход в основное меню', reply_markup=Menu)
 
     if msg.text != 'Я булочка без начинки':
         if msg.text == 'Организатор':
-            cursor.execute(''' update ev_people set status='%s',p_id=nextval('seq_org')  where chat_id='%s'; insert into organizators select p.p_id from ev_people p where p.chat_id='%s' ''' % (
-                1, msg.chat.id, msg.chat.id))
+            cursor.execute(
+                ''' update ev_people set status='%s',p_id=nextval('seq_org')  where chat_id='%s'; insert into organizators select p.p_id from ev_people p where p.chat_id='%s' ''' % (
+                    1, msg.chat.id, msg.chat.id))
             connection.commit()
         else:
             cursor.execute(
                 ''' update ev_people set status='%s',p_id=nextval('seq_part') where chat_id='%s'; insert into participants select p.p_id from ev_people p where p.chat_id='%s' ''' % (
-                    2, msg.chat.id,msg.chat.id))
+                    2, msg.chat.id, msg.chat.id))
             connection.commit()
 
 
@@ -792,14 +799,16 @@ def callback_querry(call):
         dbworker.set_var(call.message.chat.id, 'mes_to_del2', 0)
 
         cursor.execute(
-            '''select p.p_id,p.family_name,p.first_name,p.middle_name from ev_people p where chat_id='%d' ''' % (call.message.chat.id))  # айди выселяющегося
+            '''select p.p_id,p.family_name,p.first_name,p.middle_name from ev_people p where chat_id='%d' ''' % (
+                call.message.chat.id))  # айди выселяющегося
         pid = cursor.fetchall()
 
         cursor.execute(''' insert into leave( participant_chat_id,time,participant_id) values('%s','%s','%s')''' % (
-        call.message.chat.id, datetime.datetime.now().strftime("%H:%M:%S"),pid[0][0]))
+            call.message.chat.id, datetime.datetime.now().strftime("%H:%M:%S"), pid[0][0]))
 
         connection.commit()
-        cursor.execute(''' select p.chat_id from ev_people p,organizators org where org.regist=true and org.org_id=p.p_id''')  # те, кто может выселить
+        cursor.execute(
+            ''' select p.chat_id from ev_people p,organizators org where org.regist=true and org.org_id=p.p_id''')  # те, кто может выселить
         rows = cursor.fetchall()
 
         accept = types.InlineKeyboardMarkup()
@@ -807,8 +816,9 @@ def callback_querry(call):
                                                    callback_data='taken' + str(call.message.chat.id))
         accept.add(accept_button)
         for row in rows:
-
-            mes = bot.send_message(row[0], '%s %s %s под номером %d хочет выселиться. ' % (pid[0][1],pid[0][2],pid[0][3],pid[0][0]),#  Добавить потом комнату  первака
+            mes = bot.send_message(row[0], '%s %s %s под номером %d хочет выселиться. ' % (
+            pid[0][1], pid[0][2], pid[0][3], pid[0][0]),
+                                   # Добавить потом комнату  первака
                                    reply_markup=accept)
             cursor.execute(
                 ''' insert into msg_delivery( participant_chat_id, organizer_chat_id, msg_id, time) VALUES('%d','%d','%d','%s') ''' % (
@@ -836,10 +846,10 @@ def callback_querry(call):
                 call.data[5:len(call.data):1]))
         rows = cursor.fetchall()
         for row in rows:
-          try:
-            bot.delete_message(row[0], row[1])
-          except Exception:
-              pass
+            try:
+                bot.delete_message(row[0], row[1])
+            except Exception:
+                pass
         cursor.execute(''' update msg_delivery set state=False where participant_chat_id='%s' ''' % (rows[0][2]))
         connection.commit()
         mes = bot.send_message(call.message.chat.id, 'Выселить человека под номером %s ?' % (rows[0][2]),
@@ -919,11 +929,11 @@ def callback_querry(call):
         except Exception:
             pass
         cursor.execute(
-                ''' update leave set state=False where participant_chat_id='%s' ''' % (dbworker.get_var(call.message.chat.id, 'member')))
+            ''' update leave set state=False where participant_chat_id='%s' ''' % (
+                dbworker.get_var(call.message.chat.id, 'member')))
 
         connection.commit()
         dbworker.set_var(call.message.chat.id, 'no_key', '0')
-
 
 
 @bot.message_handler(content_types=['text'])

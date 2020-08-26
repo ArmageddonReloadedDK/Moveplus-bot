@@ -5,6 +5,7 @@ import datetime
 
 
 
+
 def get_state(user_id):
     with Vedis(config.db_file) as db:
       try:
