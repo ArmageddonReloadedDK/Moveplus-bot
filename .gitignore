@@ -16,3 +16,4 @@
 
 /handlers/__pycache__/*
 *.pyc
+database/database.vdb
