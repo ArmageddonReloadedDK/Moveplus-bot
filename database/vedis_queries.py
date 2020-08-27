@@ -3,9 +3,6 @@ from settings.config import db_file
 import datetime
 
 
-
-
-
 def get_state(user_id):
     with Vedis(db_file) as db:
       try:
@@ -16,7 +13,6 @@ def get_state(user_id):
 
 
 def set_state(user_id, value):
-    global a
     with Vedis(db_file) as db:
         try:
 

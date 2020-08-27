@@ -10,13 +10,16 @@ Menu.row('Карта ', 'Расписание')
 
 keyboard1 = telebot.types.ReplyKeyboardMarkup(True, True)
 keyboard1.row('Аниме на аве', 'Вилку в глаз или не вилку в глаз ?')
-
+#
 #############################################
 
 bot = telebot.TeleBot(token)
 
 
 def main_text_handler(msg):
+    #
+    # простой обработчик текстовых сообщений
+    #
     if 'Аниме на аве' in msg.text:
         bot.send_message(msg.chat.id, 'Здоровья маме')
 

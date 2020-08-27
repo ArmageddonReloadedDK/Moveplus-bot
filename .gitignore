@@ -3,5 +3,11 @@
 /.idea/*
 /__pycache__/*
 handlers/__init__.py
+
 database/__init__.py
+
 settings/__init__.py
+
+/database/__pycache__/*
+/handlers/__pycache__/*
+/settings/__pycache__/*

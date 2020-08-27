@@ -1,26 +1,24 @@
 import telebot
 from telebot import types
-import psycopg2
 from settings import config
-from database import dbworker
-from database import functions as func
+from database import psql_queries
+from database import vedis_queries
+from handlers import algorythms
 from handlers.text_handler import main_text_handler
-from PIL import Image
 import random
 import datetime
 
-
+#
+# на случай, если бот не сможет подключиться к северу телеги из-за блокировки РКН
+#
 # apihelper.proxy={"https":"socks5://198.199.120.1002:1080"}
 
 flag_reg_start = random.uniform(0, 20)
 
-bot = telebot.TeleBot(config.token)
+bot = config.get_bot()
 
-connection = psycopg2.connect(database="Events",
-                              user="postgres",
-                              password="postgres",
-                              host="localhost",
-                              port="5432")
+connection = psql_queries.get_db_connection()
+
 cursor = connection.cursor()
 
 KeyYN = telebot.types.ReplyKeyboardMarkup(True, True)
@@ -43,8 +41,6 @@ keyboard3.row('Участник', 'Организатор', 'Я булочка �
 
 MenuPosv = telebot.types.ReplyKeyboardMarkup(True, True)
 MenuPosv.row('Жилье', 'Карта', 'Ночные точки', 'Нужна мед помощь', 'Дестрой')
-
-
 
 Key_yes = telebot.types.InlineKeyboardButton(text='Да', callback_data='yes')
 Key_no = telebot.types.InlineKeyboardButton(text='Нет', callback_data='no')
@@ -100,32 +96,26 @@ key.add(key_no_button)
 
 
 @bot.message_handler(commands=['regchange'])
-def chang1(msg):
-    if func.work_type(msg, 1):
-        if not func.reg_type(msg) or func.reg_type(msg) is None:
-            cursor.execute(
-                ''' update organizators set regist=True where org_id=(select p.p_id from ev_people p where p.chat_id='%s') ''' % (
-                    msg.chat.id))
-            connection.commit()
+def reg_change(msg):
+    if psql_queries.work_type(msg, 1):
+        if not psql_queries.reg_type(msg) or psql_queries.reg_type(msg) is None:
+            psql_queries.registraion_change(True,msg.chat.id)
             bot.send_message(msg.chat.id, 'Статус изменен на True. Вам будут приходить заявки о выселении')
 
         else:
-            cursor.execute(
-                ''' update organizators set regist=FALSE where org_id=(select p.p_id from ev_people p where p.chat_id='%s') ''' % (
-                    msg.chat.id))
-            connection.commit()
+            psql_queries.registraion_change(False, msg.chat.id)
             bot.send_message(msg.chat.id, 'Статус изменен на False. Заявки больше не будут приходить ')
     else:
-        func.no_permis(msg)
+        algorythms.no_permis(msg)
 
 
 @bot.message_handler(commands=['change'])
-def chang1(msg):
-    if func.inform_state(msg) and func.work_type(msg, 1):
+def change(msg):
+    if psql_queries.inform_state(msg) and psql_queries.work_type(msg, 1):
         bot.send_message(msg.chat.id, 'Введи номер человека, у которого нужно изменить статус привилегий')
         bot.register_next_step_handler(msg, chang2)
     else:
-        func.no_permis(msg)
+        algorythms.no_permis(msg)
 
 
 def chang2(msg):
@@ -141,7 +131,7 @@ def chang2(msg):
             if len(rows) > 0:
                 bot.send_message(msg.chat.id, 'Какой статус ? True-1/False-0')
                 bot.register_next_step_handler(msg, chang3)
-                dbworker.set_var(msg.chat.id, 'cname', msg.text)
+                vedis_queries.set_var(msg.chat.id, 'cname', msg.text)
             else:
                 bot.send_message(msg.chat.id, 'такого человека нет')
     except Exception:
@@ -151,12 +141,12 @@ def chang2(msg):
 def chang3(msg):
     if '1' in msg.text:
         cursor.execute(
-            ''' update spec set inform=TRUE where spec_id='%s' ''' % (dbworker.get_var(msg.chat.id, 'cname')))
+            ''' update spec set inform=TRUE where spec_id='%s' ''' % (vedis_queries.get_var(msg.chat.id, 'cname')))
         connection.commit()
         bot.send_message(msg.chat.id, 'Статус обвнолен. Для выведения списка спец лиц введите /list')
     elif '0' in msg.text:
         cursor.execute(
-            ''' update spec set inform=FALSE where spec_id='%s' ''' % (dbworker.get_var(msg.chat.id, 'cname')))
+            ''' update spec set inform=FALSE where spec_id='%s' ''' % (vedis_queries.get_var(msg.chat.id, 'cname')))
         connection.commit()
         bot.send_message(msg.chat.id, 'Статус обвнолен. Для выведения списка спец лиц введите /list')
 
@@ -164,9 +154,9 @@ def chang3(msg):
 @bot.message_handler(commands=['leave'])
 def leave1(msg):
     global flag_reg_start
-    if func.work_type(msg, 1):
+    if psql_queries.work_type(msg, 1):
         bot.send_message(msg.chat.id, 'Куда ты собрался выселяться. Ты орг')
-    elif func.work_type(msg, 2):
+    elif psql_queries.work_type(msg, 2):
         cursor.execute(''' select l.state  from leave l  where l.participant_chat_id='%s' ''' % (msg.chat.id))
         rows = cursor.fetchall()
         if len(rows) > 0:
@@ -177,33 +167,33 @@ def leave1(msg):
         else:
             mes = bot.send_message(msg.chat.id, 'Насколько я понимаю, Вы хотите покинуть мероприятие.')
             mes1 = bot.send_message(msg.chat.id, ' Подтверждаете заявку?', reply_markup=leave_yes_not)
-            dbworker.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
-            dbworker.set_var(msg.chat.id, 'mes_to_del2', mes1.message_id)
-            if dbworker.get_var(msg.chat.id, 'mes_to_del3') != mes.message_id:
+            vedis_queries.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
+            vedis_queries.set_var(msg.chat.id, 'mes_to_del2', mes1.message_id)
+            if vedis_queries.get_var(msg.chat.id, 'mes_to_del3') != mes.message_id:
                 try:
-                    bot.delete_message(msg.chat.id, int(dbworker.get_var(msg.chat.id, 'mes_to_del3')))
-                    bot.delete_message(msg.chat.id, int(dbworker.get_var(msg.chat.id, 'mes_to_del4')))
+                    bot.delete_message(msg.chat.id, int(vedis_queries.get_var(msg.chat.id, 'mes_to_del3')))
+                    bot.delete_message(msg.chat.id, int(vedis_queries.get_var(msg.chat.id, 'mes_to_del4')))
                 except Exception:
                     pass
-            dbworker.set_var(msg.chat.id, 'mes_to_del3', mes.message_id)
-            dbworker.set_var(msg.chat.id, 'mes_to_del4', mes1.message_id)
-            dbworker.set_state(msg.chat.id, config.States.S_START.value)
+            vedis_queries.set_var(msg.chat.id, 'mes_to_del3', mes.message_id)
+            vedis_queries.set_var(msg.chat.id, 'mes_to_del4', mes1.message_id)
+            vedis_queries.set_state(msg.chat.id, config.States.S_START.value)
             # если во время выселения что-то крашнулось, надо сбросить все переменные,
             # иначе какая-то из кнопок выселения не сработает
-            dbworker.set_var(msg.chat.id, 'leave_yes', '0')
-            dbworker.set_var(msg.chat.id, 'taken', '0')
-            dbworker.set_var(msg.chat.id, 'key', '0')
-            dbworker.set_var(msg.chat.id, 'no_key', '0')
-            dbworker.set_var(msg.chat.id, 'accept', '0')
+            vedis_queries.set_var(msg.chat.id, 'leave_yes', '0')
+            vedis_queries.set_var(msg.chat.id, 'taken', '0')
+            vedis_queries.set_var(msg.chat.id, 'key', '0')
+            vedis_queries.set_var(msg.chat.id, 'no_key', '0')
+            vedis_queries.set_var(msg.chat.id, 'accept', '0')
 
 
 @bot.message_handler(commands=['info'])
 def text(msg):
-    if func.inform_state(msg) and func.work_type(msg, 1):
+    if psql_queries.inform_state(msg) and psql_queries.work_type(msg, 1):
         bot.send_message(msg.chat.id, 'Введи текст, который будет отправлен всем участникам')
         bot.register_next_step_handler(msg, info)
     else:
-        func.no_permis(msg)
+        algorythms.no_permis(msg)
 
 
 def info(msg):
@@ -214,17 +204,17 @@ def info(msg):
         if msg.text != None:
             bot.send_message(i[0], msg.text)
         if msg.photo != None:
-            a = msg.photo[-1].file_id
-            bot.send_photo(i[0], a)
+            photo = msg.photo[-1].file_id
+            bot.send_photo(i[0], photo)
 
 
 @bot.message_handler(commands=['add'])
 def add(msg):
-    if (func.inform_state(msg) and func.work_type(msg, 1)) or msg.chat.id == config.admin.Dav.value:
+    if (psql_queries.inform_state(msg) and psql_queries.work_type(msg, 1)) or msg.chat.id == config.admin.Dav.value:
         bot.send_message(msg.chat.id, 'Введите номер человека, которого нужно добавить ')
         bot.register_next_step_handler(msg, add2)
     else:
-        func.no_permis(msg)
+        algorythms.no_permis(msg)
 
 
 def add2(msg):
@@ -245,11 +235,11 @@ def add2(msg):
 
 @bot.message_handler(commands=['surname'])
 def add(msg):
-    if func.work_type(msg, 1):
+    if psql_queries.work_type(msg, 1):
         bot.send_message(msg.chat.id, 'Введите фамилию человека, которого нужно найти ')
         bot.register_next_step_handler(msg, add3)
     else:
-        func.no_permis(msg)
+        algorythms.no_permis(msg)
 
 
 def add3(msg):
@@ -272,11 +262,11 @@ def add3(msg):
 
 @bot.message_handler(commands=['roomnum'])
 def add(msg):
-    if func.work_type(msg, 1):
+    if psql_queries.work_type(msg, 1):
         bot.send_message(msg.chat.id, 'Введите номер комнаты ')
         bot.register_next_step_handler(msg, add22)
     else:
-        func.no_permis(msg)
+        algorythms.no_permis(msg)
 
 
 def add22(msg):
@@ -297,37 +287,36 @@ def add22(msg):
 
 
 @bot.message_handler(commands=['help'])
-def start_message1(msg):
-    if func.work_type(msg, 1):
+#
+# функция команды /help
+#
+def help_message(msg):
+    if psql_queries.work_type(msg, 1):
         bot.send_message(msg.chat.id,
-                         'Бот в процессе разработки.Доступные команды: \n/lmoder - список модераторов\n/add - добавить модератора\n'
-                         '/change - изменить статус модератора\n/listreg - список выселяющих организаторов\n/surname - поиск людей по фамилии\n'
-                         '/info - написать сообщение всем участникам\n/write - написать конкретному человеку\n'
-                         '/count - количество людей в базе\n/roomnum - список жильцов одного номера \n/regchange - готов/не готов выселять людей \nЗаметил косяк ? Пиши сюда @ArmageddonReloaded')
+                         config.Help_text.help_part.value)
     else:
         bot.send_message(msg.chat.id,
-                         'Бот в процессе разработки.Доступные команды: \n/start - начать процесс регистрации на мероприятии'
-                         '\n/leave - подать заявку на выселение\nЗаметил косяк ? Пиши сюда @ArmageddonReloaded')
+                         config.Help_text.help_org.value)
 
 
 @bot.message_handler(commands=['write'])
 def start_message1(msg):
-    if func.work_type(msg, 1):
+    if psql_queries.work_type(msg, 1):
         bot.send_message(msg.chat.id, 'Введи номер человека, кому нужно написать ')
         bot.register_next_step_handler(msg, num)
     else:
-        func.no_permis(msg)
+        algorythms.no_permis(msg)
 
 
 def num(msg):
-    dbworker.set_var(msg.chat.id, 'pwrite', msg.text)
+    vedis_queries.set_var(msg.chat.id, 'pwrite', msg.text)
     bot.send_message(msg.chat.id, 'Что написать ему ?')
     bot.register_next_step_handler(msg, mes)
 
 
 def mes(msg):
     try:
-        a = int(dbworker.get_var(msg.chat.id, 'pwrite'))
+        a = int(vedis_queries.get_var(msg.chat.id, 'pwrite'))
         cursor.execute(''' select chat_id from ev_people p where p_id='%s' ''' % (a))
         rows = cursor.fetchall()
         if len(rows) > 0:
@@ -341,18 +330,18 @@ def mes(msg):
 
 @bot.message_handler(commands=['lmoder'])
 def peopleshow(msg):
-    if func.work_type(msg, 1):
+    if psql_queries.work_type(msg, 1):
         cursor.execute("""select p.first_name,p.middle_name,s.inform from spec s,ev_people p where p.p_id=s.spec_id""")
         rows = cursor.fetchall()
         for r in rows:
             bot.send_message(msg.chat.id, (f"  {r[1]}  {r[0]}  наличие доступа: {r[2]}  "))
     else:
-        func.no_permis(msg)
+        algorythms.no_permis(msg)
 
 
 @bot.message_handler(commands=['listreg'])
 def peopleshow(msg):
-    if func.work_type(msg, 1):
+    if psql_queries.work_type(msg, 1):
         cursor.execute(
             """select count(p.p_id) from ev_people p,organizators org where org.regist=true and org.org_id=p.p_id """)
         rows = cursor.fetchall()
@@ -363,18 +352,18 @@ def peopleshow(msg):
         for r in rows:
             bot.send_message(msg.chat.id, (f"  {r[1]}  {r[0]}   "))
     else:
-        func.no_permis(msg)
+        algorythms.no_permis(msg)
 
 
 @bot.message_handler(commands=['count'])
 def peopleshow(msg):
-    if func.work_type(msg, 1):
+    if psql_queries.work_type(msg, 1):
         cursor.execute("""select count(*) from ev_people """)
         rows = cursor.fetchall()
         for r in rows:
             bot.send_message(msg.chat.id, (f"  {r[0]}   "))
     else:
-        func.no_permis(msg)
+        algorythms.no_permis(msg)
 
 
 # вопрос юзеру по выбору роли
@@ -382,12 +371,12 @@ def peopleshow(msg):
 # проверка по username и занесение в базу chat_id
 # 0 - никто, 1 - орг, 2 - участник
 def start_message(msg):
-    if dbworker.get_state(msg.chat.id) == config.States.S_START.value or dbworker.get_state(
-            msg.chat.id) == config.States.S_ENTER_RiGHT.value or dbworker.get_state(
+    if vedis_queries.get_state(msg.chat.id) == config.States.S_START.value or vedis_queries.get_state(
+            msg.chat.id) == config.States.S_ENTER_RiGHT.value or vedis_queries.get_state(
         msg.chat.id) is None:
 
-        if func.in_base(msg):
-            if func.work_type(msg, 0):
+        if psql_queries.in_base(msg):
+            if psql_queries.work_type(msg, 0):
 
                 photo = open('images/Who.jpg', 'rb')
                 bot.send_photo(msg.chat.id, photo)
@@ -423,138 +412,138 @@ def login(msg):
 
 @bot.message_handler(commands=['reg'])
 def start_message1(msg):
-    dbworker.set_none(msg.chat.id)
-    if not func.in_base(msg):
+    vedis_queries.set_none(msg.chat.id)
+    if not psql_queries.in_base(msg):
         global flag_reg_start
 
-        dbworker.set_var(msg.chat.id, 'flag_reg_start', flag_reg_start)
+        vedis_queries.set_var(msg.chat.id, 'flag_reg_start', flag_reg_start)
 
-        dbworker.set_var(msg.chat.id, 'Username', msg.from_user.username)
+        vedis_queries.set_var(msg.chat.id, 'Username', msg.from_user.username)
 
-        dbworker.set_var(msg.chat.id, 'Chatid', msg.chat.id)
+        vedis_queries.set_var(msg.chat.id, 'Chatid', msg.chat.id)
 
         mes = bot.send_message(msg.chat.id,
                                'Попробуйте о себе что-нибудь вспомнить.\nНажимая "Хорошо", вы даете согласие на обработку персональных данных',
                                reply_markup=Keyok)
 
-        dbworker.set_state(msg.chat.id, config.States.S_ENTER_NAME.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_ENTER_NAME.value)
 
-        dbworker.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
+        vedis_queries.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
     else:
         bot.send_message(msg.chat.id, 'Ты уже в базе')
 
 
 @bot.message_handler(
-    func=lambda msg: dbworker.get_state(msg.chat.id) == config.States.S_ENTER_NAME.value and isinstance(msg.text,
-                                                                                                        str))
+    func=lambda msg: vedis_queries.get_state(msg.chat.id) == config.States.S_ENTER_NAME.value and isinstance(msg.text,
+                                                                                                             str))
 def name(msg):
     global flag_reg_start
 
-    if str(flag_reg_start) == dbworker.get_var(msg.chat.id, 'flag_reg_start'):
+    if str(flag_reg_start) == vedis_queries.get_var(msg.chat.id, 'flag_reg_start'):
         mes = bot.send_message(msg.chat.id, text=config.Questions.Name.value)
-        dbworker.set_state(msg.chat.id, config.States.S_ENTER_MIDDLE.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_ENTER_MIDDLE.value)
         try:
-            bot.delete_message(msg.chat.id, dbworker.get_var(msg.chat.id, 'mes_to_del'))
+            bot.delete_message(msg.chat.id, vedis_queries.get_var(msg.chat.id, 'mes_to_del'))
         except Exception:
             pass
-        dbworker.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
+        vedis_queries.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
     else:
-        dbworker.set_state(msg.chat.id, config.States.S_START.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_START.value)
         bot.send_message(msg.chat.id, 'ой, видимо что-то пошло не так, пройди регистрацию заново', reply_markup=Keyreg)
 
 
 @bot.message_handler(
-    func=lambda msg: dbworker.get_state(msg.chat.id) == config.States.S_ENTER_MIDDLE.value and isinstance(msg.text,
-                                                                                                          str))
+    func=lambda msg: vedis_queries.get_state(msg.chat.id) == config.States.S_ENTER_MIDDLE.value and isinstance(msg.text,
+                                                                                                               str))
 def Family(msg):
     global flag_reg_start
-    if str(flag_reg_start) == dbworker.get_var(msg.chat.id, 'flag_reg_start'):
+    if str(flag_reg_start) == vedis_queries.get_var(msg.chat.id, 'flag_reg_start'):
 
-        dbworker.set_var(msg.chat.id, 'Name', msg.text)
+        vedis_queries.set_var(msg.chat.id, 'Name', msg.text)
 
         mes = bot.send_message(msg.chat.id, text=config.Questions.Middle.value, reply_markup=Kname)
         try:
-            bot.delete_message(msg.chat.id, dbworker.get_var(msg.chat.id, 'mes_to_del'))
+            bot.delete_message(msg.chat.id, vedis_queries.get_var(msg.chat.id, 'mes_to_del'))
         except Exception:
             pass
-        dbworker.set_state(msg.chat.id, config.States.S_ENTER_FAMILY.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_ENTER_FAMILY.value)
 
-        dbworker.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
-        dbworker.set_var(msg.chat.id, 'user_wrong', msg.message_id)
+        vedis_queries.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
+        vedis_queries.set_var(msg.chat.id, 'user_wrong', msg.message_id)
     else:
-        dbworker.set_state(msg.chat.id, config.States.S_START.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_START.value)
         bot.send_message(msg.chat.id, 'ой, видимо что-то пошло не так, пройди регистрацию заново', reply_markup=Keyreg)
 
 
 @bot.message_handler(
-    func=lambda msg: dbworker.get_state(msg.chat.id) == config.States.S_ENTER_FAMILY.value and isinstance(msg.text,
-                                                                                                          str))
+    func=lambda msg: vedis_queries.get_state(msg.chat.id) == config.States.S_ENTER_FAMILY.value and isinstance(msg.text,
+                                                                                                               str))
 def Middle(msg):
     global flag_reg_start
-    if str(flag_reg_start) == dbworker.get_var(msg.chat.id, 'flag_reg_start'):
+    if str(flag_reg_start) == vedis_queries.get_var(msg.chat.id, 'flag_reg_start'):
 
-        dbworker.set_var(msg.chat.id, 'Family', msg.text)
+        vedis_queries.set_var(msg.chat.id, 'Family', msg.text)
 
-        dbworker.set_var(msg.chat.id, 'user_wrong', msg.message_id)
+        vedis_queries.set_var(msg.chat.id, 'user_wrong', msg.message_id)
         mes = bot.send_message(msg.chat.id, text=config.Questions.Family.value, reply_markup=Kmiddle)
 
-        dbworker.set_state(msg.chat.id, config.States.S_ENTER_GROUP.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_ENTER_GROUP.value)
         try:
-            bot.delete_message(msg.chat.id, dbworker.get_var(msg.chat.id, 'mes_to_del'))
+            bot.delete_message(msg.chat.id, vedis_queries.get_var(msg.chat.id, 'mes_to_del'))
         except Exception:
             pass
-        dbworker.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
+        vedis_queries.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
     else:
-        dbworker.set_state(msg.chat.id, config.States.S_START.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_START.value)
         bot.send_message(msg.chat.id, 'ой, видимо что-то пошло не так, пройди регистрацию заново', reply_markup=Keyreg)
 
 
 @bot.message_handler(
-    func=lambda msg: dbworker.get_state(msg.chat.id) == config.States.S_ENTER_GROUP.value and isinstance(msg.text,
-                                                                                                         str))
+    func=lambda msg: vedis_queries.get_state(msg.chat.id) == config.States.S_ENTER_GROUP.value and isinstance(msg.text,
+                                                                                                              str))
 def Group(msg):
     global flag_reg_start
-    if str(flag_reg_start) == dbworker.get_var(msg.chat.id, 'flag_reg_start'):
+    if str(flag_reg_start) == vedis_queries.get_var(msg.chat.id, 'flag_reg_start'):
 
-        dbworker.set_var(msg.chat.id, 'Middle', msg.text)
+        vedis_queries.set_var(msg.chat.id, 'Middle', msg.text)
 
-        dbworker.set_var(msg.chat.id, 'user_wrong', msg.message_id)
+        vedis_queries.set_var(msg.chat.id, 'user_wrong', msg.message_id)
         mes = bot.send_message(msg.chat.id, text=config.Questions.Group.value, reply_markup=Kfamily)
-        dbworker.set_state(msg.chat.id, config.States.S_ENTER_PHONE.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_ENTER_PHONE.value)
         try:
-            bot.delete_message(msg.chat.id, dbworker.get_var(msg.chat.id, 'mes_to_del'))
+            bot.delete_message(msg.chat.id, vedis_queries.get_var(msg.chat.id, 'mes_to_del'))
         except Exception:
             pass
-        dbworker.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
+        vedis_queries.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
     else:
-        dbworker.set_state(msg.chat.id, config.States.S_START.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_START.value)
         bot.send_message(msg.chat.id, 'ой, видимо что-то пошло не так, пройди регистрацию заново', reply_markup=Keyreg)
 
 
 @bot.message_handler(
-    func=lambda msg: dbworker.get_state(msg.chat.id) == config.States.S_ENTER_PHONE.value and isinstance(msg.text,
-                                                                                                         str))
+    func=lambda msg: vedis_queries.get_state(msg.chat.id) == config.States.S_ENTER_PHONE.value and isinstance(msg.text,
+                                                                                                              str))
 def Phone(msg):
     global flag_reg_start
-    if str(flag_reg_start) == dbworker.get_var(msg.chat.id, 'flag_reg_start'):
+    if str(flag_reg_start) == vedis_queries.get_var(msg.chat.id, 'flag_reg_start'):
         try:
-            bot.delete_message(msg.chat.id, dbworker.get_var(msg.chat.id, 'mes_to_del'))
+            bot.delete_message(msg.chat.id, vedis_queries.get_var(msg.chat.id, 'mes_to_del'))
         except Exception:
             pass
-        dbworker.set_var(msg.chat.id, 'Group', msg.text)
+        vedis_queries.set_var(msg.chat.id, 'Group', msg.text)
 
         mes = bot.send_message(msg.chat.id, text=config.Questions.Phone.value, reply_markup=Kphone)
 
-        dbworker.set_var(msg.chat.id, 'last_key_mes', mes.message_id)
+        vedis_queries.set_var(msg.chat.id, 'last_key_mes', mes.message_id)
 
         mes = bot.send_message(msg.chat.id, text=config.Questions.PhoneQ.value, reply_markup=Kgroup)
 
-        dbworker.set_var(msg.chat.id, 'user_wrong', msg.message_id)
-        dbworker.set_state(msg.chat.id, config.States.S_ENTER_DATE.value)
+        vedis_queries.set_var(msg.chat.id, 'user_wrong', msg.message_id)
+        vedis_queries.set_state(msg.chat.id, config.States.S_ENTER_DATE.value)
 
-        dbworker.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
+        vedis_queries.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
     else:
-        dbworker.set_state(msg.chat.id, config.States.S_START.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_START.value)
         bot.send_message(msg.chat.id, 'ой, видимо что-то пошло не так, пройди регистрацию заново', reply_markup=Keyreg)
 
 
@@ -562,235 +551,240 @@ def Phone(msg):
     'contact'])
 def Bdate(msg):
     global flag_reg_start
-    if str(flag_reg_start) == dbworker.get_var(msg.chat.id, 'flag_reg_start') and dbworker.get_state(
+    if str(flag_reg_start) == vedis_queries.get_var(msg.chat.id, 'flag_reg_start') and vedis_queries.get_state(
             msg.chat.id) == config.States.S_ENTER_DATE.value:
         try:
-            bot.delete_message(msg.chat.id, dbworker.get_var(msg.chat.id, 'mes_to_del'))
-            bot.delete_message(msg.chat.id, dbworker.get_var(msg.chat.id, 'last_key_mes'))
+            bot.delete_message(msg.chat.id, vedis_queries.get_var(msg.chat.id, 'mes_to_del'))
+            bot.delete_message(msg.chat.id, vedis_queries.get_var(msg.chat.id, 'last_key_mes'))
         except Exception:
             pass
 
-        if int(dbworker.get_var(msg.chat.id, 'len')) > 0:
+        if int(vedis_queries.get_var(msg.chat.id, 'len')) > 0:
             i = 0
-            while i < int(dbworker.get_var(msg.chat.id, 'len')):
+            while i < int(vedis_queries.get_var(msg.chat.id, 'len')):
                 try:
-                    bot.delete_message(msg.chat.id, int(dbworker.get_var(msg.chat.id, str(i))))
+                    bot.delete_message(msg.chat.id, int(vedis_queries.get_var(msg.chat.id, str(i))))
                 except Exception:
                     pass
                 i += 1
-            dbworker.set_var(msg.chat.id, 'len', 0)
+            vedis_queries.set_var(msg.chat.id, 'len', 0)
 
-        dbworker.set_var(msg.chat.id, 'Phone', msg.contact.phone_number)
+        vedis_queries.set_var(msg.chat.id, 'Phone', msg.contact.phone_number)
 
         mes = bot.send_message(msg.chat.id, text=config.Questions.Date.value)
 
-        dbworker.set_var(msg.chat.id, 'user_wrong', msg.message_id)
-        dbworker.set_state(msg.chat.id, config.States.S_ENTER_VKURL.value)
+        vedis_queries.set_var(msg.chat.id, 'user_wrong', msg.message_id)
+        vedis_queries.set_state(msg.chat.id, config.States.S_ENTER_VKURL.value)
 
-        dbworker.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
+        vedis_queries.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
     else:
-        dbworker.set_state(msg.chat.id, config.States.S_START.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_START.value)
         bot.send_message(msg.chat.id, 'ой, видимо что-то пошло не так, пройди регистрацию заново', reply_markup=Keyreg)
 
 
 @bot.message_handler(content_types=['text'],
-                     func=lambda msg: dbworker.get_state(msg.chat.id) == config.States.S_ENTER_DATE.value)
+                     func=lambda msg: vedis_queries.get_state(msg.chat.id) == config.States.S_ENTER_DATE.value)
 def wrong_phone(msg):
     global flag_reg_start
-    if str(flag_reg_start) == dbworker.get_var(msg.chat.id, 'flag_reg_start'):
+    if str(flag_reg_start) == vedis_queries.get_var(msg.chat.id, 'flag_reg_start'):
         mes = bot.send_message(msg.chat.id, 'Нажми на кнопку в доп. клавиатуре')
-        i = dbworker.get_var(msg.chat.id, 'len')
-        dbworker.set_var(msg.chat.id, i, mes.message_id)
-        dbworker.set_var(msg.chat.id, str(int(i) + 1), msg.message_id)
-        dbworker.set_var(msg.chat.id, 'len', str(int(i) + 2))
+        i = vedis_queries.get_var(msg.chat.id, 'len')
+        vedis_queries.set_var(msg.chat.id, i, mes.message_id)
+        vedis_queries.set_var(msg.chat.id, str(int(i) + 1), msg.message_id)
+        vedis_queries.set_var(msg.chat.id, 'len', str(int(i) + 2))
 
     else:
-        dbworker.set_state(msg.chat.id, config.States.S_START.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_START.value)
         bot.send_message(msg.chat.id, 'ой, видимо что-то пошло не так, пройди регистрацию заново', reply_markup=Keyreg)
 
 
 @bot.message_handler(
-    func=lambda msg: dbworker.get_state(msg.chat.id) == config.States.S_ENTER_VKURL.value and isinstance(msg.text,
-                                                                                                         str) and dbworker.validate(
+    func=lambda msg: vedis_queries.get_state(msg.chat.id) == config.States.S_ENTER_VKURL.value and isinstance(msg.text,
+                                                                                                              str) and vedis_queries.validate(
         msg.text))
 def VKurl(msg):
     global flag_reg_start
-    if str(flag_reg_start) == dbworker.get_var(msg.chat.id, 'flag_reg_start'):
+    if str(flag_reg_start) == vedis_queries.get_var(msg.chat.id, 'flag_reg_start'):
         try:
-            bot.delete_message(msg.chat.id, dbworker.get_var(msg.chat.id, 'mes_to_del'))
+            bot.delete_message(msg.chat.id, vedis_queries.get_var(msg.chat.id, 'mes_to_del'))
         except Exception:
             pass
 
-        dbworker.set_var(msg.chat.id, 'Date', msg.text)
-        if int(dbworker.get_var(msg.chat.id, 'len')) > 0:
+        vedis_queries.set_var(msg.chat.id, 'Date', msg.text)
+        if int(vedis_queries.get_var(msg.chat.id, 'len')) > 0:
             i = 0
-            while i < int(dbworker.get_var(msg.chat.id, 'len')):
+            while i < int(vedis_queries.get_var(msg.chat.id, 'len')):
                 try:
-                    bot.delete_message(msg.chat.id, int(dbworker.get_var(msg.chat.id, str(i))))
+                    bot.delete_message(msg.chat.id, int(vedis_queries.get_var(msg.chat.id, str(i))))
                 except Exception:
                     pass
                 i += 1
-            dbworker.set_var(msg.chat.id, 'len', 0)
+            vedis_queries.set_var(msg.chat.id, 'len', 0)
 
         mes = bot.send_message(msg.chat.id, text=config.Questions.Vk.value, reply_markup=Kdate)
 
-        dbworker.set_var(msg.chat.id, 'user_wrong', msg.message_id)
-        dbworker.set_state(msg.chat.id, config.States.S_ENTER_STOP.value)
+        vedis_queries.set_var(msg.chat.id, 'user_wrong', msg.message_id)
+        vedis_queries.set_state(msg.chat.id, config.States.S_ENTER_STOP.value)
 
-        dbworker.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
+        vedis_queries.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
     else:
-        dbworker.set_state(msg.chat.id, config.States.S_START.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_START.value)
         bot.send_message(msg.chat.id, 'ой, видимо что-то пошло не так, пройди регистрацию заново',
                          reply_markup=Keyreg)
 
 
 @bot.message_handler(
-    func=lambda msg: dbworker.get_state(msg.chat.id) == config.States.S_ENTER_VKURL.value and isinstance(msg.text,
-                                                                                                         str) and not dbworker.validate(
+    func=lambda msg: vedis_queries.get_state(msg.chat.id) == config.States.S_ENTER_VKURL.value and isinstance(msg.text,
+                                                                                                              str) and not vedis_queries.validate(
         msg.text))
 def wrong_date(msg):
     global flag_reg_start
-    if str(flag_reg_start) == dbworker.get_var(msg.chat.id, 'flag_reg_start'):
+    if str(flag_reg_start) == vedis_queries.get_var(msg.chat.id, 'flag_reg_start'):
         mes = bot.send_message(msg.chat.id, 'Неправильный формат даты')
-        i = dbworker.get_var(msg.chat.id, 'len')
-        dbworker.set_var(msg.chat.id, str(i), mes.message_id)
+        i = vedis_queries.get_var(msg.chat.id, 'len')
+        vedis_queries.set_var(msg.chat.id, str(i), mes.message_id)
 
-        dbworker.set_var(msg.chat.id, str(int(i) + 1), msg.message_id)
-        dbworker.set_var(msg.chat.id, 'len', str(int(i) + 2))
+        vedis_queries.set_var(msg.chat.id, str(int(i) + 1), msg.message_id)
+        vedis_queries.set_var(msg.chat.id, 'len', str(int(i) + 2))
     else:
-        dbworker.set_state(msg.chat.id, config.States.S_START.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_START.value)
         bot.send_message(msg.chat.id, 'ой, видимо что-то пошло не так, пройди регистрацию заново', reply_markup=Keyreg)
 
 
 @bot.message_handler(
-    func=lambda msg: dbworker.get_state(msg.chat.id) == config.States.S_ENTER_STOP.value and isinstance(msg.text,
-                                                                                                        str))
+    func=lambda msg: vedis_queries.get_state(msg.chat.id) == config.States.S_ENTER_STOP.value and isinstance(msg.text,
+                                                                                                             str))
 def last_message1(msg):
     global flag_reg_start
-    if str(flag_reg_start) == dbworker.get_var(msg.chat.id, 'flag_reg_start'):
+    if str(flag_reg_start) == vedis_queries.get_var(msg.chat.id, 'flag_reg_start'):
 
-        dbworker.set_var(msg.chat.id, 'VK', msg.text)
-        if int(dbworker.get_var(msg.chat.id, 'len')) > 0:
+        vedis_queries.set_var(msg.chat.id, 'VK', msg.text)
+        if int(vedis_queries.get_var(msg.chat.id, 'len')) > 0:
             i = 0
-            while i < int(dbworker.get_var(msg.chat.id, 'len')):
+            while i < int(vedis_queries.get_var(msg.chat.id, 'len')):
                 try:
-                    bot.delete_message(msg.chat.id, int(dbworker.get_var(msg.chat.id, str(i))))
+                    bot.delete_message(msg.chat.id, int(vedis_queries.get_var(msg.chat.id, str(i))))
                 except Exception:
                     pass
                 i += 1
-            dbworker.set_var(msg.chat.id, 'len', 0)
+            vedis_queries.set_var(msg.chat.id, 'len', 0)
 
         try:
-            bot.delete_message(msg.chat.id, dbworker.get_var(msg.chat.id, 'mes_to_del'))
+            bot.delete_message(msg.chat.id, vedis_queries.get_var(msg.chat.id, 'mes_to_del'))
         except Exception:
             pass
-        question = 'Вас зовут ' + dbworker.get_var(msg.chat.id, 'Family') + ' ' + dbworker.get_var(msg.chat.id,
-                                                                                                   'Name') + ' ' + dbworker.get_var(
-            msg.chat.id, 'Middle') + '. Дата рождения' + dbworker.get_var(msg.chat.id,
-                                                                          'Date') + '. Группа-' + dbworker.get_var(
-            msg.chat.id, 'Group') + '. Номер телефона:' + dbworker.get_var(msg.chat.id,
-                                                                           'Phone') + '. Ссылка на вк- ' + dbworker.get_var(
+        question = 'Вас зовут ' + vedis_queries.get_var(msg.chat.id, 'Family') + ' ' + vedis_queries.get_var(
+            msg.chat.id,
+            'Name') + ' ' + vedis_queries.get_var(
+            msg.chat.id, 'Middle') + '. Дата рождения' + vedis_queries.get_var(msg.chat.id,
+                                                                               'Date') + '. Группа-' + vedis_queries.get_var(
+            msg.chat.id, 'Group') + '. Номер телефона:' + vedis_queries.get_var(msg.chat.id,
+                                                                                'Phone') + '. Ссылка на вк- ' + vedis_queries.get_var(
             msg.chat.id, 'VK') + '. Верно ?'
         mes = bot.send_message(msg.from_user.id, text=question, reply_markup=keyboardinlineYN)
 
-        dbworker.set_var(msg.chat.id, 'user_wrong', msg.message_id)
+        vedis_queries.set_var(msg.chat.id, 'user_wrong', msg.message_id)
 
-        dbworker.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
-        dbworker.set_state(msg.chat.id, config.States.S_ENTER_RiGHT)
+        vedis_queries.set_var(msg.chat.id, 'mes_to_del', mes.message_id)
+        vedis_queries.set_state(msg.chat.id, config.States.S_ENTER_RiGHT)
     else:
-        dbworker.set_state(msg.chat.id, config.States.S_START.value)
+        vedis_queries.set_state(msg.chat.id, config.States.S_START.value)
         bot.send_message(msg.chat.id, 'ой, видимо что-то пошло не так, пройди регистрацию заново', reply_markup=Keyreg)
 
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_querry(call):
     global flag_reg_start
-    if str(flag_reg_start) == dbworker.get_var(call.message.chat.id, 'flag_reg_start'):
-        if call.data == "yes" and dbworker.get_var(call.message.chat.id, 'flag_stop') != 'False':
-            dbworker.set_var(call.message.chat.id, 'flag_stop', 'True')
+    if str(flag_reg_start) == vedis_queries.get_var(call.message.chat.id, 'flag_reg_start'):
+        if call.data == "yes" and vedis_queries.get_var(call.message.chat.id, 'flag_stop') != 'False':
+            vedis_queries.set_var(call.message.chat.id, 'flag_stop', 'True')
             try:
-                bot.delete_message(call.message.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del'))
+                bot.delete_message(call.message.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del'))
             except Exception:
                 pass
-            func.insert_new(call.message)
+            psql_queries.insert_new(call.message)
             bot.send_message(call.message.chat.id, text=config.Questions.Stop.value)
-            dbworker.set_state(call.message.chat.id, config.States.S_ENTER_RiGHT.value)
+            vedis_queries.set_state(call.message.chat.id, config.States.S_ENTER_RiGHT.value)
 
-            dbworker.set_none(call.message.chat.id)
-        elif call.data == "no" and dbworker.get_var(call.message.chat.id, 'flag_stop') != 'True':
-            dbworker.set_state(call.message.chat.id, config.States.S_START.value)
-            dbworker.set_var(call.message.chat.id, 'flag_stop', 'False')
+            vedis_queries.set_none(call.message.chat.id)
+        elif call.data == "no" and vedis_queries.get_var(call.message.chat.id, 'flag_stop') != 'True':
+            vedis_queries.set_state(call.message.chat.id, config.States.S_START.value)
+            vedis_queries.set_var(call.message.chat.id, 'flag_stop', 'False')
             try:
-                bot.delete_message(call.message.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del'))
+                bot.delete_message(call.message.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del'))
             except Exception:
                 pass
             bot.send_message(call.message.chat.id, 'Хм. Придется снова пройти этап регистрации', reply_markup=Keyreg)
-        elif call.data == 'name' and dbworker.get_state(call.message.chat.id) != config.States.S_ENTER_MIDDLE.value:
-            dbworker.set_state(call.message.chat.id, config.States.S_ENTER_MIDDLE.value)
+        elif call.data == 'name' and vedis_queries.get_state(
+                call.message.chat.id) != config.States.S_ENTER_MIDDLE.value:
+            vedis_queries.set_state(call.message.chat.id, config.States.S_ENTER_MIDDLE.value)
             mes = bot.send_message(call.message.chat.id, 'Ну как ты так, вроде имя - одно.\n А как правильно ?')
             try:
-                bot.delete_message(call.message.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del'))
-                bot.delete_message(call.message.chat.id, dbworker.get_var(call.message.chat.id, 'user_wrong'))
+                bot.delete_message(call.message.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del'))
+                bot.delete_message(call.message.chat.id, vedis_queries.get_var(call.message.chat.id, 'user_wrong'))
             except Exception:
                 pass
-            dbworker.set_var(call.message.chat.id, 'mes_to_del', mes.message_id)
-        elif call.data == 'middle' and dbworker.get_state(call.message.chat.id) != config.States.S_ENTER_FAMILY.value:
-            dbworker.set_state(call.message.chat.id, config.States.S_ENTER_FAMILY.value)
+            vedis_queries.set_var(call.message.chat.id, 'mes_to_del', mes.message_id)
+        elif call.data == 'middle' and vedis_queries.get_state(
+                call.message.chat.id) != config.States.S_ENTER_FAMILY.value:
+            vedis_queries.set_state(call.message.chat.id, config.States.S_ENTER_FAMILY.value)
             mes = bot.send_message(call.message.chat.id, 'Ну как ты так, фамилию забыл.\n А как правильно ?')
 
             try:
-                bot.delete_message(call.message.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del'))
-                bot.delete_message(call.message.chat.id, dbworker.get_var(call.message.chat.id, 'user_wrong'))
+                bot.delete_message(call.message.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del'))
+                bot.delete_message(call.message.chat.id, vedis_queries.get_var(call.message.chat.id, 'user_wrong'))
             except Exception:
                 pass
-            dbworker.set_var(call.message.chat.id, 'mes_to_del', mes.message_id)
-        elif call.data == 'family' and dbworker.get_state(call.message.chat.id) != config.States.S_ENTER_GROUP.value:
-            dbworker.set_state(call.message.chat.id, config.States.S_ENTER_GROUP.value)
+            vedis_queries.set_var(call.message.chat.id, 'mes_to_del', mes.message_id)
+        elif call.data == 'family' and vedis_queries.get_state(
+                call.message.chat.id) != config.States.S_ENTER_GROUP.value:
+            vedis_queries.set_state(call.message.chat.id, config.States.S_ENTER_GROUP.value)
             mes = bot.send_message(call.message.chat.id, 'Блен на тоби отец обидится.\n Какое у тебя отчество?')
             try:
-                bot.delete_message(call.message.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del'))
-                bot.delete_message(call.message.chat.id, dbworker.get_var(call.message.chat.id, 'user_wrong'))
+                bot.delete_message(call.message.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del'))
+                bot.delete_message(call.message.chat.id, vedis_queries.get_var(call.message.chat.id, 'user_wrong'))
             except Exception:
                 pass
-            dbworker.set_var(call.message.chat.id, 'mes_to_del', mes.message_id)
-        elif call.data == 'group' and dbworker.get_state(call.message.chat.id) != config.States.S_ENTER_PHONE.value:
-            dbworker.set_state(call.message.chat.id, config.States.S_ENTER_PHONE.value)
+            vedis_queries.set_var(call.message.chat.id, 'mes_to_del', mes.message_id)
+        elif call.data == 'group' and vedis_queries.get_state(
+                call.message.chat.id) != config.States.S_ENTER_PHONE.value:
+            vedis_queries.set_state(call.message.chat.id, config.States.S_ENTER_PHONE.value)
             mes = bot.send_message(call.message.chat.id, 'Тебя будут хейтить одногруппники.\n Какая группа ?')
             try:
-                bot.delete_message(call.message.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del'))
-                bot.delete_message(call.message.chat.id, dbworker.get_var(call.message.chat.id, 'user_wrong'))
-                bot.delete_message(mes.chat.id, dbworker.get_var(call.message.chat.id, 'last_key_mes'))
+                bot.delete_message(call.message.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del'))
+                bot.delete_message(call.message.chat.id, vedis_queries.get_var(call.message.chat.id, 'user_wrong'))
+                bot.delete_message(mes.chat.id, vedis_queries.get_var(call.message.chat.id, 'last_key_mes'))
             except Exception:
                 pass
-            dbworker.set_var(call.message.chat.id, 'mes_to_del', mes.message_id)
+            vedis_queries.set_var(call.message.chat.id, 'mes_to_del', mes.message_id)
 
-        elif call.data == 'date' and dbworker.get_state(call.message.chat.id) != config.States.S_ENTER_VKURL.value:
-            dbworker.set_state(call.message.chat.id, config.States.S_ENTER_VKURL.value)
+        elif call.data == 'date' and vedis_queries.get_state(call.message.chat.id) != config.States.S_ENTER_VKURL.value:
+            vedis_queries.set_state(call.message.chat.id, config.States.S_ENTER_VKURL.value)
             mes = bot.send_message(call.message.chat.id,
                                    'Подсказка - в этот день ты родился.\n Напиши, если вспомнил(а)')
             try:
-                bot.delete_message(call.message.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del'))
-                bot.delete_message(call.message.chat.id, dbworker.get_var(call.message.chat.id, 'user_wrong'))
+                bot.delete_message(call.message.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del'))
+                bot.delete_message(call.message.chat.id, vedis_queries.get_var(call.message.chat.id, 'user_wrong'))
             except Exception:
                 pass
-            dbworker.set_var(call.message.chat.id, 'mes_to_del', mes.message_id)
-    elif dbworker.get_state(call.message.chat.id) != config.States.S_START.value and dbworker.get_state(
+            vedis_queries.set_var(call.message.chat.id, 'mes_to_del', mes.message_id)
+    elif vedis_queries.get_state(call.message.chat.id) != config.States.S_START.value and vedis_queries.get_state(
             call.message.chat.id) != config.States.S_ENTER_RiGHT.value:
         bot.send_message(call.message.chat.id, 'ой, видимо что-то пошло не так, пройди регистрацию заново',
                          reply_markup=Keyreg)
 
-    if call.data == 'leave_yes' and dbworker.get_var(call.message.chat.id, 'leave_yes') != '1':
-        dbworker.set_var(call.message.chat.id, 'leave_yes', '1')
+    if call.data == 'leave_yes' and vedis_queries.get_var(call.message.chat.id, 'leave_yes') != '1':
+        vedis_queries.set_var(call.message.chat.id, 'leave_yes', '1')
         mes = bot.send_message(call.message.chat.id,
                                'Заявка принята. В течение 1-5 минут к Вашей комнате подойдет организатор. Пожалуйста, не уходите далеко от своего номера.')
-        if dbworker.get_var(call.message.chat.id, 'mes_to_del') != 0:
+        if vedis_queries.get_var(call.message.chat.id, 'mes_to_del') != 0:
             try:
-                bot.delete_message(mes.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del'))
-                bot.delete_message(mes.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del2'))
+                bot.delete_message(mes.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del'))
+                bot.delete_message(mes.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del2'))
             except Exception:
                 pass
-        dbworker.set_var(call.message.chat.id, 'mes_to_del', 0)
-        dbworker.set_var(call.message.chat.id, 'mes_to_del2', 0)
+        vedis_queries.set_var(call.message.chat.id, 'mes_to_del', 0)
+        vedis_queries.set_var(call.message.chat.id, 'mes_to_del2', 0)
 
         cursor.execute(
             '''select p.p_id,p.family_name,p.first_name,p.middle_name from ev_people p where chat_id='%d' ''' % (
@@ -811,7 +805,7 @@ def callback_querry(call):
         accept.add(accept_button)
         for row in rows:
             mes = bot.send_message(row[0], '%s %s %s под номером %d хочет выселиться. ' % (
-            pid[0][1], pid[0][2], pid[0][3], pid[0][0]),
+                pid[0][1], pid[0][2], pid[0][3], pid[0][0]),
                                    # Добавить потом комнату  первака
                                    reply_markup=accept)
             cursor.execute(
@@ -819,22 +813,22 @@ def callback_querry(call):
                     call.message.chat.id, row[0], mes.message_id, datetime.datetime.now().strftime("%H:%M:%S")))
             connection.commit()
 
-    elif call.data == 'leave_not' and dbworker.get_var(call.message.chat.id, 'leave_not') != '1':
-        dbworker.set_var(call.message.chat.id, 'leave_not', '1')
+    elif call.data == 'leave_not' and vedis_queries.get_var(call.message.chat.id, 'leave_not') != '1':
+        vedis_queries.set_var(call.message.chat.id, 'leave_not', '1')
         mes = bot.send_message(call.message.chat.id, 'Заявка отклонена.')
-        if dbworker.get_var(call.message.chat.id, 'mes_to_del') != 0:
+        if vedis_queries.get_var(call.message.chat.id, 'mes_to_del') != 0:
             try:
-                bot.delete_message(mes.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del'))
-                bot.delete_message(mes.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del2'))
+                bot.delete_message(mes.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del'))
+                bot.delete_message(mes.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del2'))
             except Exception:
                 pass
-        dbworker.set_var(call.message.chat.id, 'mes_to_del', 0)
-        dbworker.set_var(call.message.chat.id, 'mes_to_del2', 0)
-        dbworker.set_state(call.message.chat.id, config.States.S_START.value)
-        dbworker.set_var(call.message.chat.id, 'leave_not', '0')
+        vedis_queries.set_var(call.message.chat.id, 'mes_to_del', 0)
+        vedis_queries.set_var(call.message.chat.id, 'mes_to_del2', 0)
+        vedis_queries.set_state(call.message.chat.id, config.States.S_START.value)
+        vedis_queries.set_var(call.message.chat.id, 'leave_not', '0')
 
-    elif 'taken' in call.data and dbworker.get_var(call.message.chat.id, 'taken') != '1':
-        dbworker.set_var(call.message.chat.id, 'taken', '1')
+    elif 'taken' in call.data and vedis_queries.get_var(call.message.chat.id, 'taken') != '1':
+        vedis_queries.set_var(call.message.chat.id, 'taken', '1')
         cursor.execute(
             ''' select m.organizer_chat_id,msg_id,l.participant_id from msg_delivery m,leave l where m.participant_chat_id=l.participant_chat_id and m.state=true and l.participant_chat_id='%s' ''' % (
                 call.data[5:len(call.data):1]))
@@ -848,91 +842,98 @@ def callback_querry(call):
         connection.commit()
         mes = bot.send_message(call.message.chat.id, 'Выселить человека под номером %s ?' % (rows[0][2]),
                                reply_markup=accept_reject)
-        dbworker.set_var(call.message.chat.id, 'mes_to_del', mes.message_id)
-        dbworker.set_var(call.message.chat.id, 'member', call.data[5:len(call.data):1])
-        dbworker.set_var(call.message.chat.id, 'memberid', rows[0][2])
-    elif call.data == 'accept' and dbworker.get_var(call.message.chat.id, 'accept') != '1':
-        dbworker.set_var(call.message.chat.id, 'accept', '1')
-        dbworker.set_state(int(dbworker.get_var(call.message.chat.id, 'member')), config.States.S_START.value)
+        vedis_queries.set_var(call.message.chat.id, 'mes_to_del', mes.message_id)
+        vedis_queries.set_var(call.message.chat.id, 'member', call.data[5:len(call.data):1])
+        vedis_queries.set_var(call.message.chat.id, 'memberid', rows[0][2])
+    elif call.data == 'accept' and vedis_queries.get_var(call.message.chat.id, 'accept') != '1':
+        vedis_queries.set_var(call.message.chat.id, 'accept', '1')
+        vedis_queries.set_state(int(vedis_queries.get_var(call.message.chat.id, 'member')), config.States.S_START.value)
 
         mes = bot.send_message(call.message.chat.id, ' Есть ли у него ключ от номера ?', reply_markup=key)
 
         try:
-            bot.delete_message(mes.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del'))
+            bot.delete_message(mes.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del'))
         except Exception:
             pass
-        dbworker.set_var(call.message.chat.id, 'mes_to_del', mes.message_id)
+        vedis_queries.set_var(call.message.chat.id, 'mes_to_del', mes.message_id)
         cursor.execute(
             ''' update leave set state=True,check_out='%s' where participant_chat_id='%s' ''' % (
-                datetime.datetime.now().strftime("%H:%M:%S"), dbworker.get_var(call.message.chat.id, 'member')))
+                datetime.datetime.now().strftime("%H:%M:%S"), vedis_queries.get_var(call.message.chat.id, 'member')))
         connection.commit()
-    elif call.data == 'reject' and dbworker.get_var(call.message.chat.id, 'reject') != '1':
-        dbworker.set_var(call.message.chat.id, 'reject', '1')
-        dbworker.set_var(call.message.chat.id, 'taken', '0')
-        dbworker.set_var(call.message.chat.id, 'accept', '0')
-        dbworker.set_var(dbworker.get_var(call.message.chat.id, 'member'), 'leave_yes', '0')
+    elif call.data == 'reject' and vedis_queries.get_var(call.message.chat.id, 'reject') != '1':
+        vedis_queries.set_var(call.message.chat.id, 'reject', '1')
+        vedis_queries.set_var(call.message.chat.id, 'taken', '0')
+        vedis_queries.set_var(call.message.chat.id, 'accept', '0')
+        vedis_queries.set_var(vedis_queries.get_var(call.message.chat.id, 'member'), 'leave_yes', '0')
 
-        dbworker.set_state((call.message.chat.id, 'member'), config.States.S_START.value)
-        bot.send_message(int(dbworker.get_var(call.message.chat.id, 'member')),
+        vedis_queries.set_state((call.message.chat.id, 'member'), config.States.S_START.value)
+        bot.send_message(int(vedis_queries.get_var(call.message.chat.id, 'member')),
                          'Отказано в выселении.')
         mes = bot.send_message(call.message.chat.id,
-                               '%s-му отказано в выселении.' % (dbworker.get_var(call.message.chat.id, 'memberid')))
+                               '%s-му отказано в выселении.' % (
+                                   vedis_queries.get_var(call.message.chat.id, 'memberid')))
         try:
-            bot.delete_message(mes.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del'))
+            bot.delete_message(mes.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del'))
         except Exception:
             pass
         cursor.execute(
             ''' delete from leave where participant_chat_id='%s'; delete from msg_delivery where participant_chat_id='%s'; ''' % (
-                dbworker.get_var(call.message.chat.id, 'member'), dbworker.get_var(call.message.chat.id, 'member')))
+                vedis_queries.get_var(call.message.chat.id, 'member'),
+                vedis_queries.get_var(call.message.chat.id, 'member')))
 
         connection.commit()
-        dbworker.set_var(call.message.chat.id, 'reject', '0')
+        vedis_queries.set_var(call.message.chat.id, 'reject', '0')
 
-    elif call.data == 'key' and dbworker.get_var(call.message.chat.id, 'key') != '1':
-        dbworker.set_var(call.message.chat.id, 'key', '1')
-        dbworker.set_var(call.message.chat.id, 'taken', '0')
-        dbworker.set_var(call.message.chat.id, 'accept', '0')
-        dbworker.set_var(dbworker.get_var(call.message.chat.id, 'member'), 'leave_yes', '0')
+    elif call.data == 'key' and vedis_queries.get_var(call.message.chat.id, 'key') != '1':
+        vedis_queries.set_var(call.message.chat.id, 'key', '1')
+        vedis_queries.set_var(call.message.chat.id, 'taken', '0')
+        vedis_queries.set_var(call.message.chat.id, 'accept', '0')
+        vedis_queries.set_var(vedis_queries.get_var(call.message.chat.id, 'member'), 'leave_yes', '0')
 
         mes = bot.send_message(call.message.chat.id,
-                               '%s-мой выселен.' % (dbworker.get_var(call.message.chat.id, 'memberid')))
+                               '%s-мой выселен.' % (vedis_queries.get_var(call.message.chat.id, 'memberid')))
         try:
-            bot.delete_message(mes.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del'))
+            bot.delete_message(mes.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del'))
         except Exception:
             pass
         cursor.execute(
             ''' update leave set key=True where participant_chat_id='%s'; update msg_delivery set state=False where participant_chat_id='%s' ''' % (
-                dbworker.get_var(call.message.chat.id, 'member'), dbworker.get_var(call.message.chat.id, 'member')))
+                vedis_queries.get_var(call.message.chat.id, 'member'),
+                vedis_queries.get_var(call.message.chat.id, 'member')))
         connection.commit()
-        bot.send_message(dbworker.get_var(call.message.chat.id, 'member'),
+        bot.send_message(vedis_queries.get_var(call.message.chat.id, 'member'),
                          'Подойдите к стойке регистрации. Вас будут там ожидать.')
-        dbworker.set_var(call.message.chat.id, 'key', '0')
+        vedis_queries.set_var(call.message.chat.id, 'key', '0')
 
-    elif call.data == 'no_key' and dbworker.get_var(call.message.chat.id, 'no_key') != '1':
-        dbworker.set_var(call.message.chat.id, 'no_key', '1')
-        dbworker.set_var(call.message.chat.id, 'taken', '0')
-        dbworker.set_var(call.message.chat.id, 'accept', '0')
-        dbworker.set_var(call.message.chat.id, 'leave_yes', '0')
+    elif call.data == 'no_key' and vedis_queries.get_var(call.message.chat.id, 'no_key') != '1':
+        vedis_queries.set_var(call.message.chat.id, 'no_key', '1')
+        vedis_queries.set_var(call.message.chat.id, 'taken', '0')
+        vedis_queries.set_var(call.message.chat.id, 'accept', '0')
+        vedis_queries.set_var(call.message.chat.id, 'leave_yes', '0')
 
         mes = bot.send_message(call.message.chat.id,
-                               'чеовек с номером %s выселен.' % (dbworker.get_var(call.message.chat.id, 'memberid')))
-        bot.send_message(dbworker.get_var(call.message.chat.id, 'member'),
+                               'чеовек с номером %s выселен.' % (
+                                   vedis_queries.get_var(call.message.chat.id, 'memberid')))
+        bot.send_message(vedis_queries.get_var(call.message.chat.id, 'member'),
                          'Подойдите к стойке регистрации. Вас будут там ожидать.')
         try:
-            bot.delete_message(mes.chat.id, dbworker.get_var(call.message.chat.id, 'mes_to_del'))
+            bot.delete_message(mes.chat.id, vedis_queries.get_var(call.message.chat.id, 'mes_to_del'))
         except Exception:
             pass
         cursor.execute(
             ''' update leave set state=False where participant_chat_id='%s' ''' % (
-                dbworker.get_var(call.message.chat.id, 'member')))
+                vedis_queries.get_var(call.message.chat.id, 'member')))
 
         connection.commit()
-        dbworker.set_var(call.message.chat.id, 'no_key', '0')
+        vedis_queries.set_var(call.message.chat.id, 'no_key', '0')
 
 
 @bot.message_handler(content_types=['text'])
 def send_text(msg):
-   main_text_handler(msg)
+    main_text_handler(msg)
 
 
+#
+# прослушивание сервера телеги на наличие новых сообщений
+#
 bot.polling()
