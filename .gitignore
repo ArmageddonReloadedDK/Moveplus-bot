@@ -2,7 +2,7 @@
 /workspace.xml
 /.idea/*
 /__pycache__/*
-/settings__init__.py
+/settings/__init__.py
 
 /database/__init__.py
 
