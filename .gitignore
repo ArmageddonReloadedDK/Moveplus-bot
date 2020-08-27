@@ -2,12 +2,17 @@
 /workspace.xml
 /.idea/*
 /__pycache__/*
-handlers/__init__.py
+/settings__init__.py
 
-database/__init__.py
+/database/__init__.py
 
-settings/__init__.py
+/handlers/__init__.py
+
+/settings/__pycache__/*
+*.pyc
 
 /database/__pycache__/*
+*.pyc
+
 /handlers/__pycache__/*
-/settings/__pycache__/*
+*.pyc
