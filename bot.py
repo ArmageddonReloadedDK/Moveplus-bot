@@ -1,14 +1,14 @@
-import time
 import telebot
 from telebot import types
 import psycopg2
-import config
-import dbworker
+from settings import config
+from database import dbworker
+from database import functions as func
+from handlers.text_handler import main_text_handler
+from PIL import Image
 import random
 import datetime
-import functions as func
-from PIL import Image
-from telebot import apihelper
+
 
 # apihelper.proxy={"https":"socks5://198.199.120.1002:1080"}
 
@@ -22,9 +22,6 @@ connection = psycopg2.connect(database="Events",
                               host="localhost",
                               port="5432")
 cursor = connection.cursor()
-
-keyboard1 = telebot.types.ReplyKeyboardMarkup(True, True)
-keyboard1.row('Аниме на аве', 'Вилку в глаз или не вилку в глаз ?')
 
 KeyYN = telebot.types.ReplyKeyboardMarkup(True, True)
 KeyYN.row('Да', 'Нет')
@@ -47,10 +44,7 @@ keyboard3.row('Участник', 'Организатор', 'Я булочка �
 MenuPosv = telebot.types.ReplyKeyboardMarkup(True, True)
 MenuPosv.row('Жилье', 'Карта', 'Ночные точки', 'Нужна мед помощь', 'Дестрой')
 
-MenuKey = telebot.types.ReplyKeyboardMarkup(True, True)
-MenuKey.row('Карта ', 'Расписание')
 
-Menu = MenuKey
 
 Key_yes = telebot.types.InlineKeyboardButton(text='Да', callback_data='yes')
 Key_no = telebot.types.InlineKeyboardButton(text='Нет', callback_data='no')
@@ -395,7 +389,7 @@ def start_message(msg):
         if func.in_base(msg):
             if func.work_type(msg, 0):
 
-                photo = open('Who.jpg', 'rb')
+                photo = open('images/Who.jpg', 'rb')
                 bot.send_photo(msg.chat.id, photo)
 
                 bot.send_message(msg.chat.id,
@@ -938,39 +932,7 @@ def callback_querry(call):
 
 @bot.message_handler(content_types=['text'])
 def send_text(msg):
-    if 'Аниме на аве' in msg.text:
-        bot.send_message(msg.chat.id, 'Здоровья маме')
-
-    elif 'Вилку в глаз или не вилку в глаз ?' in msg.text:
-        bot.send_message(msg.chat.id, 'Я смотрю, ты не одноглазый')
-
-    elif 'Я сладкий пирожочек' in msg.text:
-        bot.send_message(msg.chat.id, 'Ну ладно, тебе прощаю')
-
-    elif 'Я не Саня' in msg.text:
-        bot.send_message(msg.chat.id, 'А кто тогда Саня, Я ? Жду сотку', reply_markup=keyboard1)
-    elif 'Жилье' in msg.text:
-        bot.send_message(msg.chat.id, 'Жилье')
-    elif 'Карта' in msg.text:
-        photo = open('map.jpg', 'rb')
-        bot.send_photo(msg.chat.id, photo)
-        bot.send_message(msg.chat.id, 'Переход в основное меню', reply_markup=Menu)
-    elif 'Ночные точки' in msg.text:
-        photo = open('play.jpg', 'rb')
-        bot.send_photo(msg.chat.id, photo)
-        bot.send_message(msg.chat.id, 'Переход в основное меню', reply_markup=Menu)
-    elif 'Расписание' in msg.text:
-        photo = open('schedule.jpg', 'rb')
-        bot.send_photo(msg.chat.id, photo)
-        bot.send_message(msg.chat.id, 'Переход в основное меню', reply_markup=Menu)
-    elif 'Нужна мед помощь' in msg.text:
-        photo = open('schedule.jpg', 'rb')
-        bot.send_photo(msg.chat.id, photo)
-        bot.send_message(msg.chat.id, 'Переход в основное меню', reply_markup=Menu)
-    else:
-        bot.send_message(msg.chat.id, 'Нужен набор доступных команд ?Держи: ')
-
-        # 'Дестрой')
+   main_text_handler(msg)
 
 
 bot.polling()
