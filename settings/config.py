@@ -1,7 +1,8 @@
 from enum import Enum
 import telebot
+from settings.personal_data import token
 
-token = '616126274:AAGlRipQWcuwhgHdd83ThFvKchNfrf9ybqA'
+
 db_file = "database/database.vdb"
 db_vars = "database/varbase.vdb"
 

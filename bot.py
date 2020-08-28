@@ -3,13 +3,13 @@ from telebot import types
 from settings import config
 from database import psql_queries
 from database import vedis_queries
-from handlers import algorythms
+from algorythms import main
 from handlers.text_handler import main_text_handler
 import random
 import datetime
-from handlers.commands_with_orgs import status_change
-from handlers.commands_with_orgs import Write_to_person
-from handlers.commands_with_orgs import Regchange
+from commands.for_orgs import status_change
+from commands.for_orgs import Write_to_person
+from commands.for_orgs import Regchange
 
 #
 # на случай, если бот не сможет подключиться к северу телеги из-за блокировки РКН
@@ -160,7 +160,7 @@ def text(msg):
         bot.send_message(msg.chat.id, 'Введи текст, который будет отправлен всем участникам')
         bot.register_next_step_handler(msg, info)
     else:
-        algorythms.no_permis(msg)
+        main.no_permis(msg)
 
 
 def info(msg):
@@ -181,7 +181,7 @@ def add(msg):
         bot.send_message(msg.chat.id, 'Введите номер человека, которого нужно добавить ')
         bot.register_next_step_handler(msg, add2)
     else:
-        algorythms.no_permis(msg)
+        main.no_permis(msg)
 
 
 def add2(msg):
@@ -206,7 +206,7 @@ def add(msg):
         bot.send_message(msg.chat.id, 'Введите фамилию человека, которого нужно найти ')
         bot.register_next_step_handler(msg, add3)
     else:
-        algorythms.no_permis(msg)
+        main.no_permis(msg)
 
 
 def add3(msg):
@@ -233,7 +233,7 @@ def add(msg):
         bot.send_message(msg.chat.id, 'Введите номер комнаты ')
         bot.register_next_step_handler(msg, add22)
     else:
-        algorythms.no_permis(msg)
+        main.no_permis(msg)
 
 
 def add22(msg):
@@ -292,7 +292,7 @@ def peopleshow(msg):
         for r in rows:
             bot.send_message(msg.chat.id, (f"  {r[1]}  {r[0]}  наличие доступа: {r[2]}  "))
     else:
-        algorythms.no_permis(msg)
+        main.no_permis(msg)
 
 
 @bot.message_handler(commands=['listreg'])
@@ -308,7 +308,7 @@ def peopleshow(msg):
         for r in rows:
             bot.send_message(msg.chat.id, (f"  {r[1]}  {r[0]}   "))
     else:
-        algorythms.no_permis(msg)
+        main.no_permis(msg)
 
 
 @bot.message_handler(commands=['count'])
@@ -319,7 +319,7 @@ def peopleshow(msg):
         for r in rows:
             bot.send_message(msg.chat.id, (f"  {r[0]}   "))
     else:
-        algorythms.no_permis(msg)
+        main.no_permis(msg)
 
 
 # вопрос юзеру по выбору роли

@@ -1,9 +1,8 @@
 from database import psql_queries
 from database import vedis_queries
 from settings import config
-import telebot
 import psycopg2
-from handlers import algorythms
+from algorythms import main
 
 bot=config.get_bot()
 
@@ -24,7 +23,7 @@ class status_change():
                     bot.send_message(msg.chat.id, 'Введи номер человека, у которого нужно изменить статус привилегий')
                     return True
                 else:
-                    algorythms.no_permis(msg)
+                    main.no_permis(msg)
                     return False
 
         @staticmethod
@@ -71,7 +70,7 @@ class Write_to_person():
             bot.send_message(msg.chat.id, 'Введи номер человека, кому нужно написать ')
             return True
         else:
-            algorythms.no_permis(msg)
+            main.no_permis(msg)
             return False
 
     @staticmethod
@@ -105,4 +104,4 @@ class Regchange():
                 psql_queries.registraion_change(False, msg.chat.id)
                 bot.send_message(msg.chat.id, 'Статус изменен на False. Заявки больше не будут приходить ')
         else:
-            algorythms.no_permis(msg)
+            main.no_permis(msg)

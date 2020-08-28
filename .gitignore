@@ -8,6 +8,9 @@
 
 /handlers/__init__.py
 
+/commands/__init__.py
+/algorythms/__init__.py
+
 /settings/__pycache__/*
 *.pyc
 
