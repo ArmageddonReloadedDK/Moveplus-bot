@@ -5,6 +5,8 @@
 /__pycache__/*
 
 /settings/personal_data.py
+settings/personal_data.py
+
 
 /settings/__init__.py
 /database/__init__.py
@@ -19,4 +21,3 @@
 /database/database.vdb
 
 
-settings/personal_data.py
