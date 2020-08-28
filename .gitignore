@@ -1,25 +1,21 @@
 # Default ignored files
+
 /workspace.xml
 /.idea/*
 /__pycache__/*
+
+/settings/personal_data.py
+
 /settings/__init__.py
-
 /database/__init__.py
-
 /handlers/__init__.py
-
 /commands/__init__.py
 /algorythms/__init__.py
 
-/settings/__pycache__/*
-*.pyc
-
-/database/__pycache__/*
-*.pyc
-
-/handlers/__pycache__/*
-*.pyc
+/settings/__pycache__/**.pyc
+/database/__pycache__/**.pyc
+/handlers/__pycache__/**.pyc
 
 /database/database.vdb
 
-/settings/personal_data.py
+
