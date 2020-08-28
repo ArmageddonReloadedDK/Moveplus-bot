@@ -2,10 +2,9 @@ from enum import Enum
 import telebot
 from settings.personal_data import token
 
-token = '616126274:AAGlRipQWcuwhgHdd83ThFvKchNfrf9ybqA'
 
-db_file = "database/database.vdb"
-db_vars = "database/varbase.vdb"
+db_file = "base/database.vdb"
+db_vars = "base/varbase.vdb"
 
 
 def get_bot():
@@ -36,7 +35,7 @@ class Help_text(Enum):
                 '/change - изменить статус модератора\n' \
                 '/listreg - список выселяющих организаторов\n' \
                 '/surname - поиск людей по фамилии\n' \
-                '/info - написать сообщение всем участникам\n' \
+                '/write_ev - написать сообщение всем участникам\n' \
                 '/write - написать конкретному человеку\n' \
                 '/count - количество людей в базе\n' \
                 '/roomnum - список жильцов одного номера \n' \

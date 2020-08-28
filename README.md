@@ -14,13 +14,14 @@
    create user with encrypted password "password"
    create database database_name
    ```
-    
-3) установите python версии 2.7 и выше либо установите [anaconda](https://www.anaconda.com/products/individual), нажав при установке Add to global PATH, 
+3) Создайту базу данных, выполнив транзакцию в файле db_creation_tr
+
+4) установите python версии 2.7 и выше либо установите [anaconda](https://www.anaconda.com/products/individual), нажав при установке Add to global PATH, 
  и создайте глобальное окружение 
     ```shell script
     conda create -n env_name python=3.6
     ```
-4) установите необходимые модули для python
+5) установите необходимые модули для python
     ```shell script
     activate env_name #если используете окружение анаконды
     pip install pyTelegramBotAPI

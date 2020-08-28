@@ -1,0 +1,74 @@
+#
+#  это хапросы для создания таблиц,
+#  они не совсем читабельны, так как генерируются автоматически
+#
+create table ev_people
+(
+    first_name        varchar(50)           not null,
+    family_name       varchar(50)           not null,
+    middle_name       varchar(50),
+    group_name        varchar(50) default 0 not null,
+    phone             numeric(11)           not null,
+    telegram_username varchar(30)           not null,
+    birth_date        date,
+    status            numeric(1)  default 0,
+    vk_url            varchar(100),
+    chat_id           numeric(11) default NULL::numeric,
+    p_id              serial                not null
+        constraint people_pkey
+            primary key
+);
+
+create table leave
+(
+    l_id                serial                not null
+        constraint leave_pkey
+            primary key,
+    participant_id      integer
+        constraint leave_participant_id_fkey
+            references ev_people,
+    participant_chat_id numeric(11),
+    state               boolean default false not null,
+    check_out           time,
+    key                 boolean default false,
+    time                time
+);
+
+create table msg_delivery
+(
+    m_id                serial not null
+        constraint msg_delivery_pkey
+            primary key,
+    participant_chat_id numeric(11),
+    organizer_chat_id   numeric(11),
+    msg_id              numeric(20),
+    state               boolean default true,
+    time                time
+);
+
+create table organizators
+(
+    org_id integer not null
+        constraint organizators_pkey
+            primary key
+        constraint organizators_org_id_fkey
+            references ev_people,
+    regist boolean default false
+);
+
+create table participants
+(
+    part_id integer
+        constraint participants_part_id_fkey
+            references ev_people,
+    room    numeric(5)
+);
+
+create table spec
+(
+    spec_id  integer
+        constraint spec_spec_id_fkey
+            references ev_people,
+    get_mess numeric(1) default 0 not null,
+    inform   boolean
+);
