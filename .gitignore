@@ -20,6 +20,6 @@
 /handlers/__pycache__/*
 *.pyc
 
-database/database.vdb
+/database/database.vdb
 
-settings/personal_data.py
+/settings/personal_data.py
