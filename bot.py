@@ -17,7 +17,7 @@ flag_reg_start = random.uniform(0, 20)
 
 human = Human_class()
 cursor = human.cursor
-bot=human.bot
+bot = human.bot
 
 KeyYN = types.ReplyKeyboardMarkup(True, True)
 KeyYN.row('Да', 'Нет')
@@ -91,6 +91,8 @@ key_button = types.InlineKeyboardButton(text='Есть ключ', callback_data=
 key_no_button = types.InlineKeyboardButton(text='Нет ключа', callback_data='no_key')
 key.add(key_button)
 key.add(key_no_button)
+
+
 #########################################
 #
 # отредачил функции
@@ -144,6 +146,19 @@ def write_online_step_1(msg):
 
 def write_online_step_2(msg):
     human.write_to_person.write_to_person_step_2(msg)
+
+
+@bot.message_handler(commands=['family'])
+#
+# нечеткий поиск человека по фамилии
+#
+def family_search_online_step_0(msg):
+    if human.family_search.family_search_step_0(msg):
+        human.bot.register_next_step_handler(msg, family_search_online_step_1)
+
+
+def family_search_online_step_1(msg):
+    human.family_search.family_search_step_1(msg)
 
 ###################################################################
 
@@ -204,7 +219,10 @@ def info(msg):
             human.bot.send_photo(i[0], photo)
 
 
-@bot.message_handler(commands=['add'])
+@bot.message_handler(commands=['add_mod'])
+#
+#  добавление орга в список модераторов
+#
 def add(msg):
     if (human.inform_state(msg) and human.work_type(msg, 1)) or msg.chat.id == config.admin.Dav.value:
         human.bot.send_message(msg.chat.id, 'Введите номер человека, которого нужно добавить ')
@@ -227,33 +245,6 @@ def add2(msg):
             human.bot.send_message(msg.chat.id, 'такого человека нет')
     except Exception:
         human.bot.send_message(msg.chat.id, 'ошибка в номере')
-
-
-@bot.message_handler(commands=['surname'])
-def add(msg):
-    if human.work_type(msg, 1):
-        human.bot.send_message(msg.chat.id, 'Введите фамилию человека, которого нужно найти ')
-        human.bot.register_next_step_handler(msg, add3)
-    else:
-        main.no_permis(msg)
-
-
-def add3(msg):
-    try:
-        a = str(msg.text)
-        a.capitalize()
-        cursor.execute(
-            ''' select * from roomnum r where (select similarity(r.family_name,'%s'))>0.3 ''' % (
-                a))
-        rows = cursor.fetchall()
-        if len(rows) > 0:
-            for row in rows:
-                human.bot.send_message(msg.chat.id,
-                                       f' Личный номер: {row[0]}\n{row[3]} {row[2]} {row[1]} \nНомер телефона: {row[4]}\nГруппа {row[6]}\nНомер комнаты: {row[5]}')
-        else:
-            human.bot.send_message(msg.chat.id, 'такого человека нет')
-    except Exception:
-        human.bot.send_message(msg.chat.id, 'ошибка в фамимлии')
 
 
 @bot.message_handler(commands=['roomnum'])
@@ -544,7 +535,7 @@ def Bdate(msg):
 
 
 @bot.message_handler(content_types=['text'],
-                           func=lambda msg: human.get_state(msg.chat.id) == config.States.S_ENTER_DATE.value)
+                     func=lambda msg: human.get_state(msg.chat.id) == config.States.S_ENTER_DATE.value)
 def wrong_phone(msg):
     global flag_reg_start
     if str(flag_reg_start) == human.get_var(msg.chat.id, 'flag_reg_start'):

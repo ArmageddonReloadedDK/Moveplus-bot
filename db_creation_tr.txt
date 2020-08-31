@@ -72,3 +72,11 @@ create table spec
     get_mess numeric(1) default 0 not null,
     inform   boolean
 );
+
+create sequence seq_org
+    minvalue 5000
+    maxvalue 9999;
+
+create sequence seq_part
+    minvalue 2000
+    maxvalue 4999;

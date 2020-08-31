@@ -8,4 +8,3 @@ class Base_human_class(base_psql_class, base_vedis_class):
     def __init__(self):
         super().__init__()
         self.bot = config.get_bot()
-
