@@ -53,6 +53,13 @@ class base_psql_class:
         rows = self.cursor.fetchall()
         return rows[0][0]
 
+    def check_type(self, msg):
+        self.cursor.execute(
+            '''select o.check_out from ev_people p,organizators o where p.chat_id='%s' and o.org_id=p.p_id and p.status='%s' ''' % (
+                msg.chat.id, 1))
+        rows = self.cursor.fetchall()
+        return rows[0][0]
+
     def insert_new(self, msg):
         self.cursor.execute(
             ''' insert into public.ev_people (first_name, middle_name, family_name, group_name, phone, telegram_username,   birth_date, status, vk_url, chat_id)
