@@ -21,8 +21,8 @@ class base_vedis_class():
             except Exception:
                 return False
 
-
-    def get_var(self,user_id, var):
+    @classmethod
+    def get_var(cls,user_id, var):
         with Vedis(db_file) as db:
            try:
              c = db[str(user_id) + var].decode()

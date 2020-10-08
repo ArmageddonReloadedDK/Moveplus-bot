@@ -5,7 +5,8 @@ from base.human import Human_class
 from handlers.text_handler import main_text_handler
 import random
 import datetime
-
+import telebot
+from PIL import Image
 from org_commands.reg_change import Regchange
 
 #
@@ -14,6 +15,10 @@ from org_commands.reg_change import Regchange
 # apihelper.proxy={"https":"socks5://198.199.120.1002:1080"}
 
 flag_reg_start = random.uniform(0, 20)
+
+Menu = telebot.types.ReplyKeyboardMarkup(True, True)
+Menu.row('Карта ', 'Расписание')
+
 
 human = Human_class()
 cursor = human.cursor
@@ -260,7 +265,7 @@ def add22(msg):
     try:
         a = int(msg.text)
         cursor.execute(
-            ''' select * from roomnum r where r.room='%s' ''' % (
+            ''' select * from participants r where r.room='%s' ''' % (
                 a))
         rows = cursor.fetchall()
         if len(rows) > 0:

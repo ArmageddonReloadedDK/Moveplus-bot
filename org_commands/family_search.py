@@ -22,7 +22,7 @@ class Family_search_class(Base_human_class):
             a = str(msg.text)
             a.capitalize()
             self.cursor.execute(
-                ''' select * from roomnum r where (select similarity(r.family_name,'%s'))>0.3 ''' % (
+                ''' select * from ev_people r where (select similarity(r.family_name,'%s'))>0.3 ''' % (
                     a))
             rows = self.cursor.fetchall()
             if len(rows) > 0:

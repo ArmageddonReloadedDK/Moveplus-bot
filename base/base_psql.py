@@ -1,6 +1,9 @@
 import psycopg2
 
-from base import base_vedis
+from .base_vedis import base_vedis_class
+
+vedis=base_vedis_class
+
 
 
 class base_psql_class:
@@ -54,13 +57,12 @@ class base_psql_class:
         self.cursor.execute(
             ''' insert into public.ev_people (first_name, middle_name, family_name, group_name, phone, telegram_username,   birth_date, status, vk_url, chat_id)
              values('%s','%s','%s','%s',%s,'%s','%s',default ,'%s','%s')''' % (
-                base_vedis.get_var(msg.chat.id, 'Name'), base_vedis.get_var(msg.chat.id, 'Middle'),
-                base_vedis.get_var(msg.chat.id, 'Family'), base_vedis.get_var(msg.chat.id, 'Group'),
-                base_vedis.get_var(msg.chat.id, 'Phone'), base_vedis.get_var(msg.chat.id, 'Username'),
-                base_vedis.get_var(msg.chat.id, 'Date'), base_vedis.get_var(msg.chat.id, 'VK'),
-                base_vedis.get_var(msg.chat.id, 'Chatid')))
+               vedis.get_var(msg.chat.id, 'Name'),vedis.get_var(msg.chat.id, 'Middle'),
+               vedis.get_var(msg.chat.id, 'Family'),vedis.get_var(msg.chat.id, 'Group'),
+               vedis.get_var(msg.chat.id, 'Phone'),vedis.get_var(msg.chat.id, 'Username'),
+               vedis.get_var(msg.chat.id, 'Date'),vedis.get_var(msg.chat.id, 'VK'),
+               vedis.get_var(msg.chat.id, 'Chatid')))
         self.connection.commit()
-
     def registraion_change(self, status, chat_id):
         self.cursor.execute(
             ''' update organizators set regist='%s' where org_id=(select p.p_id from ev_people p where p.chat_id='%s') ''' % (
