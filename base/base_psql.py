@@ -65,7 +65,20 @@ class base_psql_class:
         self.connection.commit()
     def registraion_change(self, status, chat_id):
         self.cursor.execute(
-            ''' update organizators set regist='%s' where org_id=(select p.p_id from ev_people p where p.chat_id='%s') ''' % (
+            ''' update organizators set regist='%s' 
+                where org_id=(select p.p_id 
+                              from ev_people p 
+                              where p.chat_id='%s') ''' % (
+                status,
+                chat_id))
+        self.connection.commit()
+
+    def check_out_change(self, status, chat_id):
+        self.cursor.execute(
+            ''' update organizators set check_out='%s' 
+                where org_id=(select p.p_id 
+                              from ev_people p 
+                              where p.chat_id='%s') ''' % (
                 status,
                 chat_id))
         self.connection.commit()

@@ -22,13 +22,16 @@ class Family_search_class(Base_human_class):
             a = str(msg.text)
             a.capitalize()
             self.cursor.execute(
-                ''' select * from ev_people r where (select similarity(r.family_name,'%s'))>0.3 ''' % (
+                ''' select p.p_id,p.family_name,p.first_name,p.middle_name,p.phone,p.group_name,r.room,p.vk_url
+                    from ev_people p left join participants r on p.p_id = r.part_id
+                    where (select similarity(p.family_name,'%s'))>0.27  ''' % (
                     a))
             rows = self.cursor.fetchall()
             if len(rows) > 0:
                 for row in rows:
                     self.bot.send_message(msg.chat.id,
-                                          f' Личный номер: {row[0]}\n{row[3]} {row[2]} {row[1]} \nНомер телефона: {row[4]}\nГруппа {row[6]}\nНомер комнаты: {row[5]}')
+                                          f' Личный номер: {row[0]}\n{row[1]} {row[2]} {row[3]} '
+                                          f'\nНомер телефона: {row[4]}\nГруппа {row[5]}\nНомер комнаты: {row[6]}')
             else:
                 self.bot.send_message(msg.chat.id, 'такого человека нет')
         except Exception:

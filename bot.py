@@ -102,12 +102,16 @@ key.add(key_no_button)
 #
 # отредачил функции
 #
-@bot.message_handler(commands=['regchange'])
+@bot.message_handler(commands=['checkoutgo'])
 def reg_change_online(msg):
     human.reg_status.registraion_change_step_0(msg)
 
+@bot.message_handler(commands=['checkout'])
+def reg_change_online(msg):
+    human.reg_status.checkOut(msg)
 
-@bot.message_handler(commands=['change'])
+
+@bot.message_handler(commands=['changeNONE'])
 def change_online_step_0(msg):
     if human.status.status_change_step_0(msg):
         human.bot.register_next_step_handler(msg, change_online_step_1)
@@ -135,7 +139,7 @@ def help_message(msg):
                                config.Help_text.help_org.value)
 
 
-@bot.message_handler(commands=['write'])
+@bot.message_handler(commands=['writeNONE'])
 #
 # функция команды /write которая позволяет написать в личку человеку по его id
 #
@@ -167,7 +171,7 @@ def family_search_online_step_1(msg):
 
 ###################################################################
 
-@bot.message_handler(commands=['leave'])
+@bot.message_handler(commands=['leaveNONE'])
 def leave1(msg):
     global flag_reg_start
     if human.work_type(msg, 1):
@@ -203,7 +207,7 @@ def leave1(msg):
             human.set_var(msg.chat.id, 'accept', '0')
 
 
-@bot.message_handler(commands=['write_ev'])
+@bot.message_handler(commands=['write_evNONE'])
 def text(msg):
     if human.inform_state(msg) and human.work_type(msg, 1):
         human.bot.send_message(msg.chat.id, 'Введи текст, который будет отправлен всем участникам')
@@ -224,7 +228,7 @@ def info(msg):
             human.bot.send_photo(i[0], photo)
 
 
-@bot.message_handler(commands=['add_mod'])
+@bot.message_handler(commands=['add_modNONE'])
 #
 #  добавление орга в список модераторов
 #
@@ -278,7 +282,7 @@ def add22(msg):
         human.bot.send_message(msg.chat.id, 'ошибка в номере')
 
 
-@bot.message_handler(commands=['lmoder'])
+@bot.message_handler(commands=['lmoderNONE'])
 def peopleshow(msg):
     if human.work_type(msg, 1):
         cursor.execute("""select p.first_name,p.middle_name,s.inform from spec s,ev_people p where p.p_id=s.spec_id""")
@@ -289,7 +293,7 @@ def peopleshow(msg):
         main.no_permis(msg)
 
 
-@bot.message_handler(commands=['listreg'])
+@bot.message_handler(commands=['listregNONE'])
 def peopleshow(msg):
     if human.work_type(msg, 1):
         cursor.execute(
