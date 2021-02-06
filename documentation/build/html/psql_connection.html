@@ -1,0 +1,317 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Connection to databases &mdash; MovePlus 0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="MovePlus 0 documentation" href="index.html"/>
+        <link rel="next" title="Django models" href="backend/modules/models.html"/>
+        <link rel="prev" title="Event moderating" href="moderating.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> MovePlus
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">User interface:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduce.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_to_use.html">Как пользоваться</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Telegram-bot backend:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="proj_struct.html">Project structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="psql.html">Creating database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="registration.html">User registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="role_choosing.html">Choosing role in event</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Available bot commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="event_leaving.html">Leaving the event</a></li>
+<li class="toctree-l1"><a class="reference internal" href="moderating.html">Event moderating</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Connection to databases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#postgresql">Postgresql</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vedis">Vedis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vedis_func.html">Vedis database methods</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Web backend:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/models.html">Django models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/admin.html">Django adminministration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/forms.html">Django Forms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/serializers.html">Django serializers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/views.html">Django views</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/urls.html">Django urls</a></li>
+</ul>
+<p class="caption"><span class="caption-text">You can help us to develop project:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/about-me.html">About us</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MovePlus</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Connection to databases</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/psql_connection.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="connection-to-databases">
+<h1>Connection to databases<a class="headerlink" href="#connection-to-databases" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="postgresql">
+<h2>Postgresql<a class="headerlink" href="#postgresql" title="Permalink to this headline">¶</a></h2>
+<p>To connect to Postgresql database in python need to use psycopg2 module:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">psycopg2</span>
+</pre></div>
+</div>
+<p>Second step - creating connection:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">connection</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s2">&quot;Events&quot;</span><span class="p">,</span>
+                           <span class="n">user</span><span class="o">=</span><span class="s2">&quot;postgres&quot;</span><span class="p">,</span>
+                           <span class="n">password</span><span class="o">=</span><span class="s2">&quot;123&quot;</span><span class="p">,</span>
+                           <span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span>
+                           <span class="n">port</span><span class="o">=</span><span class="s2">&quot;5432&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>‘database’ - database name</p></li>
+<li><p>‘user’  - database user username</p></li>
+<li><p>‘password’ - user password</p></li>
+<li><p>‘host’ - database ip adress (on local machine ip is ‘localhost’ or ‘127.0.0.1’ )</p></li>
+<li><p>‘port’ - port, which your Postgresql uses (‘5432’ by default)</p></li>
+</ol>
+</div></blockquote>
+<p>Then creating cursor:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>It uses to send queries to database:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">querry</span><span class="p">)</span>
+
+<span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span> <span class="c1"># ONLY in case of inserting/updating data in database</span>
+<span class="c1">#without this comand no changes will be saved</span>
+</pre></div>
+</div>
+<p>To get rows from cursor use method fetchall:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span><span class="o">=</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="vedis">
+<h2>Vedis<a class="headerlink" href="#vedis" title="Permalink to this headline">¶</a></h2>
+<p>To use database import module:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">vedis</span> <span class="kn">import</span> <span class="n">Vedis</span>
+</pre></div>
+</div>
+<p>You can work with Vedis like typical list:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Vedis</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">as</span> <span class="n">db</span><span class="p">:</span>
+       <span class="n">db</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">=</span><span class="n">value</span>
+</pre></div>
+</div>
+<p>When first value insertes in database python creates special file. His name will be the string,wich you send as input parameter at first commad. In other cases python will use already created file.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>all returned values from Vedis database have string type</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Vedis database file name must be in format ‘some_name.db’</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="backend/modules/models.html" class="btn btn-neutral float-right" title="Django models" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="moderating.html" class="btn btn-neutral" title="Event moderating" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, DIT Movement.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

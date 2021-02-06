@@ -1,0 +1,449 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>DDL queries &mdash; MovePlus 0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="MovePlus 0 documentation" href="index.html"/>
+        <link rel="next" title="Django models" href="backend/modules/models.html"/>
+        <link rel="prev" title="Install" href="install.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> MovePlus
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">User interface:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduce.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_to_use.html">Как пользоваться</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User interface:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">DDL queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#er-diagram">ER-Diagram</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Web backend:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/models.html">Django models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/admin.html">Django adminministration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/forms.html">Django Forms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/serializers.html">Django serializers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/views.html">Django views</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/urls.html">Django urls</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Telegram-bot backend:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="proj_struct.html">Project structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="registration.html">User registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="role_choosing.html">Choosing role in event</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Available bot commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="event_leaving.html">Leaving the event</a></li>
+<li class="toctree-l1"><a class="reference internal" href="moderating.html">Event moderating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="psql_connection.html">Connection to databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vedis_func.html">Vedis database methods</a></li>
+</ul>
+<p class="caption"><span class="caption-text">You can help us to develop project:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/about-me.html">About us</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MovePlus</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>DDL queries</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/psql.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ddl-queries">
+<h1>DDL queries<a class="headerlink" href="#ddl-queries" title="Permalink to this headline">¶</a></h1>
+<p>To create databse use those queries:</p>
+<p>Ev_people</p>
+<p>Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">Ev_People</span>
+<span class="p">(</span>
+   <span class="n">p_id</span> <span class="n">serial</span> <span class="n">PRIMARY</span> <span class="n">key</span><span class="p">,</span>
+   <span class="n">first_name</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="ow">not</span> <span class="n">null</span><span class="p">,</span>
+   <span class="n">family_name</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="ow">not</span> <span class="n">null</span><span class="p">,</span>
+   <span class="n">middle_name</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="ow">not</span> <span class="n">null</span><span class="p">,</span>
+   <span class="n">birth_date</span> <span class="n">DATE</span> <span class="n">NOT</span> <span class="n">NULL</span><span class="p">,</span>
+   <span class="n">phone</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="ow">not</span> <span class="n">null</span> <span class="n">unique</span><span class="p">,</span>
+   <span class="n">group_name</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="p">,</span>
+   <span class="n">telegram_username</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="ow">not</span> <span class="n">null</span> <span class="n">unique</span><span class="p">,</span>
+   <span class="n">vk_url</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="ow">not</span> <span class="n">null</span><span class="p">,</span>
+   <span class="n">chat_id</span> <span class="n">NUMERIC</span><span class="p">(</span><span class="mi">11</span><span class="p">),</span>
+   <span class="n">status</span> <span class="n">NUMERIC</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="ow">not</span> <span class="n">null</span> <span class="n">default</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">--</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">орг</span><span class="p">,</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">участник</span><span class="p">,</span> <span class="mi">0</span> <span class="o">-</span> <span class="n">человек</span> <span class="n">без</span> <span class="n">роли</span>
+           <span class="n">CONSTRAINT</span> <span class="n">status_values_check</span> <span class="n">CHECK</span> <span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="mi">0</span> <span class="n">OR</span> <span class="n">status</span><span class="o">=</span><span class="mi">1</span> <span class="n">OR</span> <span class="n">status</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="p">);</span>
+
+
+       <span class="n">team_name</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Ev_Part</p>
+<p>Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">Ev_Part</span>
+<span class="p">(</span>
+   <span class="n">part_id</span> <span class="n">SERIAL</span> <span class="n">PRIMARY</span> <span class="n">KEY</span><span class="p">,</span>
+   <span class="n">person_id</span> <span class="n">integer</span> <span class="n">REFERENCES</span> <span class="n">Ev_People</span><span class="p">(</span><span class="n">p_id</span><span class="p">),</span>
+   <span class="n">check_in</span> <span class="n">timestamp</span><span class="p">,</span>
+   <span class="n">arrive_status</span> <span class="n">NUMERIC</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">default</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="o">--</span><span class="mi">0</span> <span class="o">-</span> <span class="n">не</span> <span class="n">прибыл</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">прибыл</span><span class="p">,</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">выехал</span>
+           <span class="n">CONSTRAINT</span> <span class="n">status_values_check</span> <span class="n">CHECK</span> <span class="p">(</span><span class="n">arrive_status</span><span class="o">=</span><span class="mi">0</span> <span class="n">OR</span> <span class="n">arrive_status</span><span class="o">=</span><span class="mi">1</span> <span class="n">OR</span> <span class="n">arrive_status</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+   <span class="n">room_id</span> <span class="n">integer</span> <span class="n">REFERENCES</span> <span class="n">Ev_Rooms</span><span class="p">(</span><span class="n">r_id</span><span class="p">),</span>
+   <span class="n">team_id</span> <span class="n">integer</span> <span class="n">references</span> <span class="n">Ev_Teams</span><span class="p">(</span><span class="n">t_id</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Ev_Org</p>
+<p>Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">table</span> <span class="n">Ev_Org</span>
+<span class="p">(</span>
+       <span class="n">org_id</span> <span class="n">serial</span> <span class="n">primary</span> <span class="n">key</span><span class="p">,</span>
+       <span class="n">person_id</span> <span class="n">integer</span> <span class="n">REFERENCES</span> <span class="n">Ev_People</span><span class="p">(</span><span class="n">p_id</span><span class="p">),</span>
+       <span class="n">web_login</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+       <span class="n">web_password</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Ev_Rooms</p>
+<p>Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">table</span> <span class="n">Ev_Rooms</span>
+<span class="p">(</span>
+       <span class="n">r_id</span> <span class="n">serial</span> <span class="n">primary</span> <span class="n">key</span><span class="p">,</span>
+       <span class="n">room_num</span> <span class="n">numeric</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="ow">not</span> <span class="n">null</span><span class="p">,</span>
+       <span class="n">room_floor</span> <span class="n">numeric</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+       <span class="n">room_building</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+       <span class="n">bed_num</span> <span class="n">numeric</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="ow">not</span> <span class="n">null</span><span class="p">,</span>
+       <span class="n">CHECK</span> <span class="p">(</span><span class="n">bed_num</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span>
+       <span class="n">bed_num_empty</span> <span class="n">numeric</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="ow">not</span> <span class="n">null</span>
+           <span class="n">constraint</span> <span class="n">empty_bed_check</span> <span class="n">CHECK</span> <span class="p">(</span><span class="n">bed_num_empty</span> <span class="o">&lt;=</span> <span class="n">bed_num</span><span class="p">),</span>
+       <span class="n">CHECK</span> <span class="p">(</span><span class="n">bed_num_empty</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span>
+       <span class="n">features</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">40000</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Ev_Teams</p>
+<p>Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">table</span> <span class="n">Ev_Teams</span>
+<span class="p">(</span>
+       <span class="n">t_id</span> <span class="n">serial</span> <span class="n">primary</span> <span class="n">key</span><span class="p">,</span>
+       <span class="n">team_name</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Ev_Posts</p>
+<p>Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">table</span> <span class="n">Ev_Posts</span>
+<span class="p">(</span>
+       <span class="n">post_id</span> <span class="n">serial</span> <span class="n">primary</span> <span class="n">key</span><span class="p">,</span>
+       <span class="n">post_name</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span> <span class="n">UNIQUE</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Ev_Places</p>
+<p>Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">table</span> <span class="n">Ev_Places</span>
+<span class="p">(</span>
+       <span class="n">place_id</span> <span class="n">serial</span> <span class="n">primary</span> <span class="n">key</span><span class="p">,</span>
+       <span class="n">place_name</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="ow">not</span> <span class="n">null</span><span class="p">,</span>
+   <span class="n">features</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">40000</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Ev_Requisite</p>
+<p>Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">table</span> <span class="n">Ev_Requisite</span>
+<span class="p">(</span>
+       <span class="n">req_id</span> <span class="n">serial</span> <span class="n">primary</span> <span class="n">key</span><span class="p">,</span>
+       <span class="n">req_name</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="ow">not</span> <span class="n">null</span><span class="p">,</span>
+       <span class="n">req_amount</span> <span class="n">numeric</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="ow">not</span> <span class="n">null</span><span class="p">,</span>
+       <span class="n">req_description</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">40000</span><span class="p">),</span>
+       <span class="n">req_owner</span> <span class="n">serial</span> <span class="n">REFERENCES</span> <span class="n">Ev_People</span><span class="p">(</span><span class="n">p_id</span><span class="p">)</span>
+       <span class="o">--</span><span class="n">req_status</span> <span class="n">boolean</span> <span class="n">default</span> <span class="n">false</span> <span class="o">--</span><span class="n">false</span> <span class="o">-</span> <span class="n">не</span> <span class="n">занят</span><span class="p">,</span> <span class="n">true</span> <span class="o">-</span> <span class="n">занят</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Ev_Events</p>
+<p>Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">table</span> <span class="n">Ev_Events</span>
+<span class="p">(</span>
+       <span class="n">ev_id</span> <span class="n">serial</span> <span class="n">primary</span> <span class="n">key</span><span class="p">,</span>
+       <span class="n">ev_name</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span> <span class="ow">not</span> <span class="n">null</span> <span class="p">,</span>
+       <span class="n">event_features</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">40000</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Ev_person_posts</p>
+<p>Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">table</span> <span class="n">Ev_person_posts</span>
+<span class="p">(</span>
+       <span class="nb">id</span> <span class="n">serial</span> <span class="n">PRIMARY</span> <span class="n">KEY</span><span class="p">,</span>
+       <span class="n">person</span> <span class="n">INTEGER</span> <span class="n">REFERENCES</span> <span class="n">Ev_Org</span><span class="p">(</span><span class="n">org_id</span><span class="p">)</span> <span class="n">ON</span> <span class="n">DELETE</span> <span class="n">CASCADE</span><span class="p">,</span>
+       <span class="n">post</span> <span class="n">INTEGER</span> <span class="n">REFERENCES</span> <span class="n">Ev_Posts</span><span class="p">(</span><span class="n">post_id</span><span class="p">)</span> <span class="n">ON</span> <span class="n">DELETE</span> <span class="n">CASCADE</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Ev_Busyness</p>
+<p>Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">table</span> <span class="n">Ev_Busyness</span>
+<span class="p">(</span>
+       <span class="nb">id</span> <span class="n">serial</span> <span class="n">PRIMARY</span> <span class="n">KEY</span><span class="p">,</span>
+       <span class="n">id_person_post</span> <span class="n">INTEGER</span> <span class="n">REFERENCES</span> <span class="n">Ev_person_posts</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="n">ON</span> <span class="n">DELETE</span> <span class="n">CASCADE</span><span class="p">,</span>
+       <span class="n">id_event</span> <span class="n">INTEGER</span> <span class="n">REFERENCES</span> <span class="n">Ev_Events</span><span class="p">(</span><span class="n">ev_id</span><span class="p">)</span> <span class="n">ON</span> <span class="n">DELETE</span> <span class="n">CASCADE</span><span class="p">,</span>
+       <span class="n">id_team</span> <span class="n">INTEGER</span> <span class="n">REFERENCES</span> <span class="n">Ev_Teams</span><span class="p">(</span><span class="n">t_id</span><span class="p">)</span> <span class="n">ON</span> <span class="n">DELETE</span> <span class="n">CASCADE</span><span class="p">,</span>
+       <span class="n">place_id</span> <span class="n">INTEGER</span> <span class="n">REFERENCES</span> <span class="n">Ev_Places</span><span class="p">(</span><span class="n">place_id</span><span class="p">)</span> <span class="n">ON</span> <span class="n">DELETE</span> <span class="n">CASCADE</span><span class="p">,</span>
+       <span class="n">event_start_time</span> <span class="n">timestamp</span><span class="p">,</span>
+       <span class="n">event_end_time</span> <span class="n">timestamp</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Trigger participant_status_check</p>
+<p>Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>CREATE FUNCTION pr_part_status_check()
+RETURNS trigger as $$
+DECLARE err INTEGER;
+   BEGIN
+       select count() INTO err FROM Ev_People
+           where (status in (1, 2))AND
+                 NEW.person_id = p_id;
+       if err = 1 then
+           RAISE EXCEPTION&#39;Уже существует такой участник или организатор&#39;;
+       END IF;
+       RETURN NEW;
+   END;
+   $$language plpgsql;
+
+CREATE TRIGGER tr_part_status_check
+   BEFORE INSERT
+   ON Ev_Part
+   FOR EACH ROW
+   EXECUTE PROCEDURE  pr_part_status_check();
+</pre></div>
+</div>
+<p>Trigger organizator_status_check</p>
+<p>Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>CREATE FUNCTION pr_org_status_check()
+RETURNS trigger as $$
+DECLARE err INTEGER;
+   BEGIN
+       select count() INTO err FROM Ev_People
+           where (status = 1 OR status = 2) AND
+                 NEW.person_id = p_id;
+       if err = 1 then
+           RAISE EXCEPTION&#39;Уже существует такой участник или организатор&#39;;
+       END IF;
+       RETURN NEW;
+   END;
+   $$language plpgsql;
+
+CREATE TRIGGER tr_org_status_check
+   BEFORE INSERT
+   ON Ev_Org
+   FOR EACH ROW
+   EXECUTE PROCEDURE  pr_org_status_check();
+</pre></div>
+</div>
+</div>
+<div class="section" id="er-diagram">
+<h1>ER-Diagram<a class="headerlink" href="#er-diagram" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://miro.com/app/board/o9J_kvBZHR0=/">Link</a></p>
+<p>Screenshot</p>
+<img alt="_images/er.jpg" src="_images/er.jpg" />
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="backend/modules/models.html" class="btn btn-neutral float-right" title="Django models" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="install.html" class="btn btn-neutral" title="Install" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, DIT Movement.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

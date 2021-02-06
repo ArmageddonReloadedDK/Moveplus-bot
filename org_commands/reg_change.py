@@ -22,7 +22,7 @@ class Regchange(Base_human_class):
 
     def checkOut(self,msg):
         if self.work_type(msg, 1):
-            if not self.reg_type(msg) or self.reg_type(msg) is None:
+            if not self.check_type(msg) or self.check_type(msg) is None:
                 self.check_out_change(True, msg.chat.id)
                 self.bot.send_message(msg.chat.id, 'Стойка регистрации.\nСтатус изменен. Вы можете выселять людей')
 

@@ -1,0 +1,563 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Django views &mdash; MovePlus 0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="MovePlus 0 documentation" href="../../index.html"/>
+        <link rel="next" title="Django urls" href="urls.html"/>
+        <link rel="prev" title="Django serializers" href="serializers.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> MovePlus
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">User interface:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduce.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_use.html">Как пользоваться</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Telegram-bot backend:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../proj_struct.html">Project structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../psql.html">Creating database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../registration.html">User registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../role_choosing.html">Choosing role in event</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../commands.html">Available bot commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../event_leaving.html">Leaving the event</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../moderating.html">Event moderating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../psql_connection.html">Connection to databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vedis_func.html">Vedis database methods</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Web backend:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="models.html">Django models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin.html">Django adminministration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">Django Forms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="serializers.html">Django serializers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Django views</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Основные представления</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#json">Возвращающие JSON представления</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="urls.html">Django urls</a></li>
+</ul>
+<p class="caption"><span class="caption-text">You can help us to develop project:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about-me.html">About us</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MovePlus</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Django views</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/backend/modules/views.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="django-views">
+<h1>Django views<a class="headerlink" href="#django-views" title="Permalink to this headline">¶</a></h1>
+<p>Модуль отвечающий за формирование http ответа.</p>
+<p>Документация по ‘представлениям’_</p>
+<p>Самое важное: djnago предоставляет программисту две возможности формировать представления. Как функции представлений и как Class-Based представления, то есть представления в основе которых лежат классы django</p>
+<p>Пакеты, которые я использовал:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Для отправки на веб страницу готовых форм</span>
+
+<span class="kn">from</span> <span class="nn">django.views.generic.edit</span> <span class="kn">import</span> <span class="n">FormView</span>
+
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="kn">import</span> <span class="n">TemplateView</span>
+
+<span class="c1"># для формирования ответов перенаправлений</span>
+
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponseRedirect</span>
+
+<span class="c1"># Базовый класс представления</span>
+
+<span class="kn">from</span> <span class="nn">django.views.generic.base</span> <span class="kn">import</span> <span class="n">View</span>
+
+<span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">logout</span>
+
+<span class="c1"># Форма для регистрации новых пользователей</span>
+
+<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">UserCreateForm</span>
+
+<span class="c1"># Все модели для формирования объектов наших классов-моделей и построения запросов к базе данных</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="c1"># Пакет для авторизации пользователей форма авторизации</span>
+
+<span class="kn">from</span> <span class="nn">django.contrib.auth.forms</span> <span class="kn">import</span> <span class="n">AuthenticationForm</span>
+
+<span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">login</span>
+
+<span class="c1"># для формирования ответа в формате json</span>
+
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">JsonResponse</span>
+
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+
+<span class="c1"># Классы сериализаторы</span>
+
+<span class="kn">from</span> <span class="nn">.serializers</span> <span class="kn">import</span> <span class="n">ParticipantSerializer</span><span class="p">,</span> <span class="n">RoomSerializer</span><span class="p">,</span> <span class="n">TeamSerializer</span><span class="p">,</span> <span class="n">TimetableSerializer</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+</pre></div>
+</div>
+<div class="section" id="id2">
+<h2>Основные представления<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Class-Based представление для отображения главной страницы:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MainView</span><span class="p">(</span><span class="n">TemplateView</span><span class="p">):</span>
+
+        <span class="c1"># Html шаблон</span>
+
+        <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;ajax.html&#39;</span>
+
+        <span class="n">participant_form</span> <span class="o">=</span> <span class="n">PartForm</span>
+</pre></div>
+</div>
+<p>Class-Based представление для отображения страницы регистрации:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="k">class</span> <span class="nc">RegisterFormView</span><span class="p">(</span><span class="n">FormView</span><span class="p">):</span>
+
+            <span class="n">form_class</span> <span class="o">=</span> <span class="n">UserCreateForm</span>
+
+            <span class="n">success_url</span> <span class="o">=</span> <span class="s2">&quot;/events/login&quot;</span>
+
+            <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;register.html&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+
+            <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+       <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">RegisterFormView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">form_valid</span><span class="p">(</span><span class="n">form</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">form_invalid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+
+       <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">RegisterFormView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">form_invalid</span><span class="p">(</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Class-Based представление для отображения страницы авторизации:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="k">class</span> <span class="nc">LoginFormView</span><span class="p">(</span><span class="n">FormView</span><span class="p">):</span>
+
+            <span class="n">form_class</span> <span class="o">=</span> <span class="n">AuthenticationForm</span>
+
+            <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;login.html&quot;</span>
+
+<span class="n">success_url</span> <span class="o">=</span> <span class="s2">&quot;/events/&quot;</span>
+
+<span class="k">def</span> <span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+
+       <span class="c1"># Получаем объект пользователя на основе введённых в форму данных.</span>
+
+       <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">get_user</span><span class="p">()</span>
+
+       <span class="c1"># Выполняем аутентификацию пользователя.</span>
+
+            <span class="n">login</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+
+       <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">LoginFormView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">form_valid</span><span class="p">(</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Class-Based представление для возможности пользователя выйти из системы:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LogoutView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+
+<span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+
+        <span class="n">logout</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="s2">&quot;/events/&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="json">
+<h2>Возвращающие JSON представления<a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h2>
+<p>Функция представления данных об участнике/участниках:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">JSONPartView</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="p">:</span> <span class="c1"># При методе запроса GET вернём данные</span>
+
+                <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+
+                        <span class="c1"># переменная с текстом запроса к базе данных</span>
+
+                        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT *</span>
+
+                        <span class="n">FROM</span>\
+
+                        <span class="n">ev_people</span> <span class="k">as</span> <span class="n">p</span><span class="p">,</span> \
+
+                        <span class="n">ev_Part</span> <span class="k">as</span> <span class="n">part</span> \
+
+                        <span class="n">LEFT</span> <span class="n">OUTER</span> <span class="n">JOIN</span> <span class="n">ev_rooms</span> <span class="k">as</span> <span class="n">r</span>\
+
+                        <span class="n">ON</span> <span class="n">part</span><span class="o">.</span><span class="n">room_id</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">r_id</span>\
+
+                        <span class="n">LEFT</span> <span class="n">OUTER</span> <span class="n">JOIN</span> <span class="n">ev_teams</span> <span class="k">as</span> <span class="n">t</span>\
+
+        <span class="n">ON</span> <span class="n">part</span><span class="o">.</span><span class="n">team_id</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">t_id</span>\
+
+                        <span class="n">WHERE</span>\
+
+                        <span class="n">part</span><span class="o">.</span><span class="n">person_ptr_id</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">p_id</span><span class="p">;</span><span class="s2">&quot;</span>
+
+                        <span class="n">participants</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Person</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">raw</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+                        <span class="n">serializer</span> <span class="o">=</span> <span class="n">ParticipantSerializer</span><span class="p">(</span><span class="n">participants</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span> <span class="c1"># При методе запроса POST добавим данные в таблицу</span>
+
+                <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">is_ajax</span><span class="p">():</span> <span class="c1"># Проверка, что это именно ajax запрос</span>
+
+                        <span class="c1"># Получаем данные из запроса и формируем объект нужного класса-модели</span>
+
+                        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+
+                        <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Participant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p_id</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;p_id&#39;</span><span class="p">])</span>
+
+                        <span class="n">person</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;first_name&#39;</span><span class="p">]</span>
+
+                        <span class="n">person</span><span class="o">.</span><span class="n">middle_name</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;middle_name&#39;</span><span class="p">]</span>
+
+                        <span class="n">person</span><span class="o">.</span><span class="n">family_name</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;family_name&#39;</span><span class="p">]</span>
+
+                        <span class="n">person</span><span class="o">.</span><span class="n">phone</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phone&#39;</span><span class="p">]</span>
+
+                        <span class="n">person</span><span class="o">.</span><span class="n">group_name</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;group_name&#39;</span><span class="p">]</span>
+
+                        <span class="n">person</span><span class="o">.</span><span class="n">vk_url</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;vk_url&#39;</span><span class="p">]</span>
+
+                        <span class="n">person</span><span class="o">.</span><span class="n">birth_date</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;birth_date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+                        <span class="n">person</span><span class="o">.</span><span class="n">arrive_status</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;arrive_status&#39;</span><span class="p">]</span>
+
+                <span class="c1"># Проверка на пустую строку нужна потому, что при создании объекта связанных моделей, например Участник-комната</span>
+
+                <span class="c1"># Подразумевает, что атрибут room(комната) у участника будет являться текстовым указателем на определенный объект класса комната</span>
+
+                <span class="c1"># Поэтому при попытке добавить пустое значение, мы будем получать ошибку, т.к. строка вернувшаяся с сервера не является указателем</span>
+
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;room&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+
+                        <span class="n">room</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Room</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">r_id</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;room&#39;</span><span class="p">])</span>
+
+                        <span class="n">person</span><span class="o">.</span><span class="n">room</span> <span class="o">=</span> <span class="n">room</span>
+
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;team&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+
+        <span class="n">team</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Team</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">t_id</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;team&#39;</span><span class="p">])</span>
+
+        <span class="n">person</span><span class="o">.</span><span class="n">team</span> <span class="o">=</span> <span class="n">team</span>
+
+    <span class="n">person</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c1"># сохраняем в базу данных новый или измененный объект класса участник</span>
+
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="mi">201</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span> <span class="c1"># Если форма некорректна - пользователь получит ошибку с кодом 400</span>
+</pre></div>
+</div>
+<p>Функция представления данных о комнате/комнатах:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">JSONRoomView</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+
+                        <span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;SELECT r_id, room_num, bed_num</span><span class="se">\</span>
+
+             <span class="n">FROM</span> <span class="n">ev_rooms</span>\
+
+                    <span class="n">LEFT</span> <span class="n">OUTER</span> <span class="n">JOIN</span> <span class="p">(</span>\
+
+                        <span class="n">SELECT</span> <span class="n">room_id</span><span class="p">,</span> <span class="n">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">as</span> <span class="n">c</span>\
+
+                        <span class="n">FROM</span> <span class="n">ev_part</span>\
+
+                        <span class="n">WHERE</span> <span class="n">room_id</span> <span class="n">IS</span> <span class="n">NOT</span> <span class="n">NULL</span>\
+
+                        <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">room_id</span><span class="p">)</span> <span class="n">A</span> <span class="n">ON</span> <span class="n">ev_rooms</span><span class="o">.</span><span class="n">r_id</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">room_id</span>\
+
+             <span class="n">WHERE</span> <span class="n">bed_num</span> <span class="o">&gt;</span> <span class="n">COALESCE</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span><span class="s1">&#39;</span>
+
+    <span class="n">rooms</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Room</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">raw</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+    <span class="n">serializer</span> <span class="o">=</span> <span class="n">RoomSerializer</span><span class="p">(</span><span class="n">rooms</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Функция представления данных об команде/командах:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">JSONTeamView</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="p">:</span>
+
+                <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+
+                        <span class="n">rooms</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Team</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+                        <span class="n">serializer</span> <span class="o">=</span> <span class="n">TeamSerializer</span><span class="p">(</span><span class="n">rooms</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Функция представления данных о расписании:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">JSONTimetableView</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;GET&quot;</span><span class="p">:</span>
+
+                <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+
+                        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT ev_timetable.event_start_time,</span><span class="se">\</span>
+
+                        <span class="n">ev_timetable</span><span class="o">.</span><span class="n">event_end_time</span><span class="p">,</span>\
+
+                        <span class="n">ev_timetable</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>\
+
+                        <span class="n">Ev_People</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span>\
+
+                        <span class="n">Ev_People</span><span class="o">.</span><span class="n">middle_name</span><span class="p">,</span>\
+
+                        <span class="n">Ev_People</span><span class="o">.</span><span class="n">family_name</span><span class="p">,</span>\
+
+                        <span class="n">ev_posts</span><span class="o">.</span><span class="n">post_name</span><span class="p">,</span>\
+
+                        <span class="n">Ev_Posts</span><span class="o">.</span><span class="n">post_id</span><span class="p">,</span>\
+
+                        <span class="n">Ev_Places</span><span class="o">.</span><span class="n">place_id</span><span class="p">,</span>\
+
+                        <span class="n">Ev_Places</span><span class="o">.</span><span class="n">place_name</span><span class="p">,</span>\
+
+                        <span class="n">Ev_Events</span><span class="o">.</span><span class="n">ev_id</span><span class="p">,</span>\
+
+                        <span class="n">Ev_Events</span><span class="o">.</span><span class="n">ev_name</span><span class="p">,</span>\
+
+                        <span class="n">Ev_Teams</span><span class="o">.</span><span class="n">team_name</span><span class="p">,</span>\
+
+                        <span class="n">Ev_Teams</span><span class="o">.</span><span class="n">t_id</span>\
+
+                        <span class="n">FROM</span> <span class="n">ev_timetable</span>\
+
+                                <span class="n">LEFT</span> <span class="n">JOIN</span> <span class="n">ev_person_posts</span> <span class="k">as</span> <span class="n">pp</span> <span class="n">ON</span> <span class="n">ev_timetable</span><span class="o">.</span><span class="n">id_person_post</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">id</span>\
+
+                                <span class="n">LEFT</span> <span class="n">JOIN</span> <span class="n">ev_org</span> <span class="n">ON</span> <span class="n">pp</span><span class="o">.</span><span class="n">org_id</span> <span class="o">=</span> <span class="n">Ev_Org</span><span class="o">.</span><span class="n">org_id</span>\
+
+                                <span class="n">LEFT</span> <span class="n">JOIN</span> <span class="n">ev_posts</span> <span class="n">ON</span> <span class="n">pp</span><span class="o">.</span><span class="n">id_post</span> <span class="o">=</span> <span class="n">Ev_Posts</span><span class="o">.</span><span class="n">post_id</span>\
+
+                                <span class="n">LEFT</span> <span class="n">JOIN</span> <span class="n">ev_people</span> <span class="n">ON</span> <span class="n">Ev_Org</span><span class="o">.</span><span class="n">person_ptr_id</span> <span class="o">=</span> <span class="n">Ev_People</span><span class="o">.</span><span class="n">p_id</span>\
+
+                                <span class="n">LEFT</span> <span class="n">OUTER</span> <span class="n">JOIN</span> <span class="n">ev_places</span> <span class="n">ON</span> <span class="n">ev_timetable</span><span class="o">.</span><span class="n">id_place</span> <span class="o">=</span> <span class="n">Ev_Places</span><span class="o">.</span><span class="n">place_id</span>\
+
+                                <span class="n">LEFT</span> <span class="n">OUTER</span> <span class="n">JOIN</span> <span class="n">ev_teams</span> <span class="n">ON</span> <span class="n">ev_timetable</span><span class="o">.</span><span class="n">id_team</span> <span class="o">=</span> <span class="n">ev_teams</span><span class="o">.</span><span class="n">t_id</span>\
+
+                                <span class="n">LEFT</span> <span class="n">JOIN</span> <span class="n">ev_events</span> <span class="n">ON</span> <span class="n">ev_timetable</span><span class="o">.</span><span class="n">id_event</span> <span class="o">=</span> <span class="n">Ev_Events</span><span class="o">.</span><span class="n">ev_id</span><span class="p">;</span><span class="s2">&quot;</span>
+
+                        <span class="n">timetable</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Timetable</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">raw</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+                        <span class="n">serializer</span> <span class="o">=</span> <span class="n">TimetableSerializer</span><span class="p">(</span><span class="n">timetable</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="urls.html" class="btn btn-neutral float-right" title="Django urls" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="serializers.html" class="btn btn-neutral" title="Django serializers" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, DIT Movement.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

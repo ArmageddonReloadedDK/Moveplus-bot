@@ -1,0 +1,9 @@
+Support
+=======
+The easiest way to get help with the project is to write me.
+
+My telegram nickname- @ArmageddonReloaded.
+
+My email - dgkagramanyan@yandex.ru
+
+My Github: https://github.com/ArmageddonRusReloaded

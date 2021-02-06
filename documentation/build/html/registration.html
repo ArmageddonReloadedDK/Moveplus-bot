@@ -1,0 +1,584 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>User registration &mdash; MovePlus 0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="MovePlus 0 documentation" href="index.html"/>
+        <link rel="next" title="Postgresql database methods" href="psql_func.html"/>
+        <link rel="prev" title="Creating database" href="psql.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> MovePlus
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">User interface:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduce.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_to_use.html">Как пользоваться</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Telegram-bot backend:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="proj_struct.html">Project structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="psql.html">Creating database</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">User registration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#plot-of-the-dialoge">Plot of the dialoge:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plot-of-error">Plot of error:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#starting-the-dialoge">Starting the dialoge</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="psql_func.html">Postgresql database methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vedis_func.html">Vedis database methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="role_choosing.html">Choosing role in event</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fixing-errors">Fixing errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deleting-messages">Deleting messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="role_choosing.html">Choosing role in event</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Available bot commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="event_leaving.html">Leaving the event</a></li>
+<li class="toctree-l1"><a class="reference internal" href="moderating.html">Event moderating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="psql_connection.html">Connection to databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vedis_func.html">Vedis database methods</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Web backend:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/models.html">Django models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/admin.html">Django adminministration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/forms.html">Django Forms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/serializers.html">Django serializers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/views.html">Django views</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/urls.html">Django urls</a></li>
+</ul>
+<p class="caption"><span class="caption-text">You can help us to develop project:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/about-me.html">About us</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MovePlus</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>User registration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/registration.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="user-registration">
+<h1>User registration<a class="headerlink" href="#user-registration" title="Permalink to this headline">¶</a></h1>
+<p>The main tool to work with objects in telebot is handlers. The body of the bot fully consists of this ‘modules’.</p>
+<p>Message handler could have special input parameter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@bot</span><span class="o">.</span><span class="n">message_handler</span><span class="p">(</span><span class="n">commands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;str&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>It means that this handler will be called when user send:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="nb">str</span>
+</pre></div>
+</div>
+<p>Or you could choose what type of object will activate the handler:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@bot</span><span class="o">.</span><span class="n">message_handler</span><span class="p">(</span><span class="n">content_types</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Main body of handler consists of functions.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@bot</span><span class="o">.</span><span class="n">message_handler</span><span class="p">(</span><span class="n">commands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">])</span>
+
+  <span class="k">def</span> <span class="nf">first_func</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+
+     <span class="n">code</span><span class="o">...</span>
+
+  <span class="k">def</span> <span class="nf">secnd_func</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+
+     <span class="n">code</span><span class="o">...</span>
+</pre></div>
+</div>
+<p>To go to the next function in handler you need to use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bot</span><span class="o">.</span><span class="n">register_next_step_handler</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">func_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@bot</span><span class="o">.</span><span class="n">message_handler</span><span class="p">(</span><span class="n">commands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">])</span>
+
+ <span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+
+     <span class="n">code</span><span class="o">...</span>
+
+     <span class="n">bot</span><span class="o">.</span><span class="n">register_next_step_handler</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">second</span><span class="p">)</span>
+
+ <span class="k">def</span> <span class="nf">second</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+
+     <span class="n">code</span><span class="o">...</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>msg - is new message, wich user send after the first message .</p>
+</div>
+<div class="section" id="plot-of-the-dialoge">
+<h2>Plot of the dialoge:<a class="headerlink" href="#plot-of-the-dialoge" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>User send message,wich triggers start handler</p></li>
+<li><p>Activated handler changes user start to enter the registration</p></li>
+</ol>
+<p>Loop:</p>
+<blockquote>
+<div><ol class="arabic simple" start="3">
+<li><p>User answer for his  question</p></li>
+<li><p>His message activate next registration step</p></li>
+<li><p>Handler changes user’s state and user goes to the next registration step</p></li>
+</ol>
+</div></blockquote>
+<p>End loop</p>
+<ol class="arabic simple" start="6">
+<li><p>if user tap on special mistake inline button, callback comes from user</p></li>
+<li><p>Callback triggers callback handler, wich delete previous mistakes and ask question again</p></li>
+<li><p>if all right, user confirm registration by tapping on inline button</p></li>
+<li><p>callback from last step calls function wich sends inserts querry to database</p></li>
+</ol>
+</div></blockquote>
+<p>To determine any caused error there is checking structure before any registration message handler. If randomed flag_reg_start value it not equal to the user’s value in Vedis db, it means that bot had an error and it was rebooted:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="n">flag_reg_start</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="plot-of-error">
+<h2>Plot of error:<a class="headerlink" href="#plot-of-error" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Bot have been rebooted during registration</p></li>
+<li><p>Any user action activate next handler</p></li>
+<li><p>Handler check user’s flag_to_restart value</p></li>
+<li><p>If this value and generated in current session value are not equal, handler change user’s state to ‘Start’ and send him to the start</p></li>
+</ol>
+</div></blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If bot has been rebooted, user would not be able to continue previous registration. He has to start it again.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To prevent any problems start handler will work only in case when user send message to the bot for the first time or he is already in database . It works because of cheking user status and reboot indicator.</p>
+</div>
+</div>
+<div class="section" id="starting-the-dialoge">
+<h2>Starting the dialoge<a class="headerlink" href="#starting-the-dialoge" title="Permalink to this headline">¶</a></h2>
+<p>To start using platform user enter command  in the chat with bot:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">start</span>
+</pre></div>
+</div>
+<p>Start handler:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@bot</span><span class="o">.</span><span class="n">message_handler</span><span class="p">(</span><span class="n">commands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">start_message</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">dbworker</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">==</span> <span class="n">config</span><span class="o">.</span><span class="n">States</span><span class="o">.</span><span class="n">S_START</span><span class="o">.</span><span class="n">value</span> <span class="ow">or</span> <span class="n">dbworker</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span>
+         <span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">==</span> <span class="n">config</span><span class="o">.</span><span class="n">States</span><span class="o">.</span><span class="n">S_ENTER_RiGHT</span><span class="o">.</span><span class="n">value</span> <span class="ow">or</span> <span class="n">dbworker</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span>
+     <span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+     <span class="k">if</span> <span class="n">func</span><span class="o">.</span><span class="n">in_base</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+             <span class="c1"># if user is in  Postgresql database</span>
+         <span class="k">if</span> <span class="n">func</span><span class="o">.</span><span class="n">work_type</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span>
+                     <span class="c1"># finding user work status</span>
+
+                               <span class="n">some</span> <span class="n">code</span><span class="o">...</span>
+                               <span class="n">bot</span><span class="o">.</span><span class="n">register_next_step_handler</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">login</span><span class="p">)</span>
+
+ <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+       <span class="n">some</span> <span class="n">code</span>
+</pre></div>
+</div>
+<p>More information about Postgresql functions here:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="psql_func.html">Postgresql database methods</a></li>
+</ul>
+</div>
+<p>To change create and change variables related to user, need to use functions from file dbworker:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dbworker</span><span class="o">.</span><span class="n">set_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;flag_reg_start&#39;</span><span class="p">,</span> <span class="n">flag_reg_start</span><span class="p">)</span>
+<span class="c1">#changing variable value related to person</span>
+
+<span class="n">dbworker</span><span class="o">.</span><span class="n">get_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;mes_to_del&#39;</span><span class="p">))</span>
+<span class="c1"># getting variable value related to person</span>
+
+<span class="n">dbworker</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">States</span><span class="o">.</span><span class="n">S_ENTER_NAME</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="c1"># changing use&#39;s state</span>
+
+<span class="n">bworker</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="c1"># getting usrs&#39;s state</span>
+</pre></div>
+</div>
+<p>For more information about Vedis fuctions read here:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="vedis_func.html">Vedis database methods</a></li>
+</ul>
+</div>
+<p>Handler from registration start,where Vedis function are used:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@bot</span><span class="o">.</span><span class="n">message_handler</span><span class="p">(</span><span class="n">commands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;reg&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">start_message1</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+
+  <span class="n">dbworker</span><span class="o">.</span><span class="n">set_none</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">func</span><span class="o">.</span><span class="n">in_base</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+       <span class="c1"># using function with querry to check wether user is in database</span>
+      <span class="k">global</span> <span class="n">flag_reg_start</span>
+              <span class="c1"># indicator of error</span>
+
+      <span class="n">dbworker</span><span class="o">.</span><span class="n">set_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;flag_reg_start&#39;</span><span class="p">,</span> <span class="n">flag_reg_start</span><span class="p">)</span>
+              <span class="c1">#saving restart flag value</span>
+
+      <span class="n">dbworker</span><span class="o">.</span><span class="n">set_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;Username&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
+              <span class="c1">#saving username</span>
+
+      <span class="n">dbworker</span><span class="o">.</span><span class="n">set_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;Chatid&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+              <span class="c1"># saving user&#39;s chat.id</span>
+
+       <span class="n">code</span><span class="o">...</span>
+
+      <span class="n">dbworker</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">States</span><span class="o">.</span><span class="n">S_ENTER_NAME</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+              <span class="c1"># changing user&#39;s state to enter the next message handler</span>
+
+      <span class="n">dbworker</span><span class="o">.</span><span class="n">set_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;mes_to_del&#39;</span><span class="p">,</span> <span class="n">mes</span><span class="o">.</span><span class="n">message_id</span><span class="p">)</span>
+              <span class="c1"># saving message to delete</span>
+</pre></div>
+</div>
+<p>Next steps are very similar, they differ from each other only with asking questions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@bot</span><span class="o">.</span><span class="n">message_handler</span><span class="p">(</span>
+   <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">msg</span><span class="p">:</span> <span class="n">dbworker</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">==</span> <span class="n">config</span><span class="o">.</span><span class="n">States</span><span class="o">.</span><span class="n">S_ENTER_MIDDLE</span><span class="o">.</span><span class="n">value</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+                                                                                                         <span class="nb">str</span><span class="p">))</span>
+       <span class="c1"># lambda function plays &#39;if&#39; construction role</span>
+       <span class="c1"># if it returns false, message handler will not enter user</span>
+  <span class="k">def</span> <span class="nf">Family</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+   <span class="k">global</span> <span class="n">flag_reg_start</span>
+   <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">flag_reg_start</span><span class="p">)</span> <span class="o">==</span> <span class="n">dbworker</span><span class="o">.</span><span class="n">get_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;flag_reg_start&#39;</span><span class="p">):</span>
+       <span class="c1"># determining the restart flag variable with user&#39;s chat.id</span>
+
+       <span class="n">dbworker</span><span class="o">.</span><span class="n">set_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+               <span class="c1"># saving previous answer</span>
+
+       <span class="n">mes</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">Questions</span><span class="o">.</span><span class="n">Middle</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">reply_markup</span><span class="o">=</span><span class="n">Kname</span><span class="p">)</span>
+               <span class="c1"># question to user</span>
+       <span class="k">try</span><span class="p">:</span>
+           <span class="n">bot</span><span class="o">.</span><span class="n">delete_message</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">dbworker</span><span class="o">.</span><span class="n">get_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;mes_to_del&#39;</span><span class="p">))</span>
+                       <span class="c1">#deleting previous question</span>
+       <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+           <span class="k">pass</span>
+       <span class="n">dbworker</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">States</span><span class="o">.</span><span class="n">S_ENTER_FAMILY</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+               <span class="c1"># changing user state to enter next handler</span>
+
+       <span class="n">dbworker</span><span class="o">.</span><span class="n">set_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;mes_to_del&#39;</span><span class="p">,</span> <span class="n">mes</span><span class="o">.</span><span class="n">message_id</span><span class="p">)</span>
+       <span class="n">dbworker</span><span class="o">.</span><span class="n">set_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;user_wrong&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">message_id</span><span class="p">)</span>
+   <span class="k">else</span><span class="p">:</span>
+       <span class="n">dbworker</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">States</span><span class="o">.</span><span class="n">S_START</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+               <span class="c1"># changing user&#39;s state</span>
+       <span class="n">bot</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;ой, видимо что-то пошло не так, пройди регистрацию заново&#39;</span><span class="p">,</span> <span class="n">reply_markup</span><span class="o">=</span><span class="n">Keyreg</span><span class="p">)</span>
+               <span class="c1"># bor reboot flag</span>
+</pre></div>
+</div>
+<p>If user did a mistake, he could go to previous step. This works with help of inline buttons. In bot method, were he send message to user, is also given parameter  reply_markup, where Keyreg is special buttons.</p>
+<p>To use them need to create above all code inline keyboard:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Kname</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">InlineKeyboardMarkup</span><span class="p">()</span>
+<span class="n">Name_button</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">InlineKeyboardButton</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">buttom_text_string</span><span class="p">,</span> <span class="n">callback_data</span><span class="o">=</span><span class="n">callback_string</span><span class="p">)</span>
+<span class="n">Kname</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Name_button</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Where callback is special signal, wich is very useful. To work them create callback handler (like message handler). In this project created callback handlers wich work with inline buttons.</p>
+<p>Exampe:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@bot</span><span class="o">.</span><span class="n">callback_query_handler</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">call</span><span class="p">:</span> <span class="kc">True</span><span class="p">)</span>
+ <span class="k">def</span> <span class="nf">callback_querry</span><span class="p">(</span><span class="n">call</span><span class="p">):</span>
+   <span class="k">global</span> <span class="n">flag_reg_start</span>
+   <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">flag_reg_start</span><span class="p">)</span> <span class="o">==</span> <span class="n">dbworker</span><span class="o">.</span><span class="n">get_var</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;flag_reg_start&#39;</span><span class="p">):</span>
+       <span class="nd">@reboot</span> <span class="n">flag</span>
+       <span class="k">if</span> <span class="n">call</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s2">&quot;yes&quot;</span> <span class="ow">and</span> <span class="n">dbworker</span><span class="o">.</span><span class="n">get_var</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;flag_stop&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">&#39;False&#39;</span><span class="p">:</span>
+               <span class="c1"># main gate to the callback handler</span>
+           <span class="n">dbworker</span><span class="o">.</span><span class="n">set_var</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;flag_stop&#39;</span><span class="p">,</span> <span class="s1">&#39;True&#39;</span><span class="p">)</span>
+                       <span class="c1"># rejecting to person second tap</span>
+           <span class="k">try</span><span class="p">:</span>
+               <span class="n">bot</span><span class="o">.</span><span class="n">delete_message</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">dbworker</span><span class="o">.</span><span class="n">get_var</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;mes_to_del&#39;</span><span class="p">))</span>
+                               <span class="c1">#deleting previous message</span>
+           <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+               <span class="k">pass</span>
+           <span class="n">func</span><span class="o">.</span><span class="n">insert_new</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+                       <span class="c1">#inserting new user&#39;s personal data</span>
+           <span class="n">dbworker</span><span class="o">.</span><span class="n">set_none</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                       <span class="c1"># creating variables for new user</span>
+</pre></div>
+</div>
+<p>After registration user chooses role. In this project roles are:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>0 - None</p></li>
+<li><p>1 - organizator</p></li>
+<li><p>2 - participant</p></li>
+</ol>
+</div></blockquote>
+<p>More information abut roles here:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="role_choosing.html">Choosing role in event</a></li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can choose organizator or participant role only once !</p>
+</div>
+</div>
+<div class="section" id="fixing-errors">
+<h2>Fixing errors<a class="headerlink" href="#fixing-errors" title="Permalink to this headline">¶</a></h2>
+<p>There is some interesting bug, caused in this project by telebot architecture.</p>
+<p>If during registration user did a mistake , he will tap on inline button ‘mistake’ and go to the previous step. But in fact because of human factor user can tap on that button twice or more before it will be deleted. As a result same callback handler will be actived more then once and ,therefore , callback body cody will run several times wich is absolutely incorrect.</p>
+<p>To solve this issue need to change user’s state immediately in the start of callback handler body and make a state check construction:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">elif</span> <span class="n">call</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="s1">&#39;family&#39;</span> <span class="ow">and</span> <span class="n">dbworker</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">!=</span> <span class="n">config</span><span class="o">.</span><span class="n">States</span><span class="o">.</span><span class="n">S_ENTER_GROUP</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+    <span class="c1">#checking user&#39;s state value</span>
+        <span class="n">dbworker</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">States</span><span class="o">.</span><span class="n">S_ENTER_GROUP</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                    <span class="c1">#changing user&#39;s state value</span>
+                    <span class="n">some</span> <span class="n">code</span><span class="o">...</span>
+</pre></div>
+</div>
+<p>As a result, user’s state changes immediately and person is not able to call callback handler again in small time interval.</p>
+</div>
+<div class="section" id="deleting-messages">
+<h2>Deleting messages<a class="headerlink" href="#deleting-messages" title="Permalink to this headline">¶</a></h2>
+<p>Every message or call handler have same deleting frame:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+        <span class="n">bot</span><span class="o">.</span><span class="n">delete_message</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">dbworker</span><span class="o">.</span><span class="n">get_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;str&#39;</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+         <span class="k">pass</span>
+<span class="n">dbworker</span><span class="o">.</span><span class="n">set_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">mes</span><span class="o">.</span><span class="n">message_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Furthemore message handler have one extra line to save user’s message:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dbworker</span><span class="o">.</span><span class="n">set_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;user_wrong&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">message_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where str could be:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>mes_to_del - bot question</p></li>
+<li><p>user_wrong - user’s answer</p></li>
+<li><p>last_key_mes - bot second message on ‘phone’ step</p></li>
+<li><p>mes_to_del2 - bot second message during cheking out</p></li>
+</ol>
+</div></blockquote>
+<p>Phone and date handlers habe one unique feature.</p>
+<p>On their step user can give a lot of variants of answers. To delete all incorrect messages need to create new text handler which will save all their id:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@bot</span><span class="o">.</span><span class="n">message_handler</span><span class="p">(</span><span class="n">content_types</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">],</span>
+                    <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">msg</span><span class="p">:</span> <span class="n">dbworker</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">==</span> <span class="n">config</span><span class="o">.</span><span class="n">States</span><span class="o">.</span><span class="n">S_ENTER_DATE</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+  <span class="k">def</span> <span class="nf">wrong_phone</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+   <span class="k">global</span> <span class="n">flag_reg_start</span>
+    <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">flag_reg_start</span><span class="p">)</span> <span class="o">==</span> <span class="n">dbworker</span><span class="o">.</span><span class="n">get_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;flag_reg_start&#39;</span><span class="p">):</span>
+       <span class="n">mes</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;Нажми на кнопку в доп. клавиатуре&#39;</span><span class="p">)</span>
+       <span class="n">i</span> <span class="o">=</span> <span class="n">dbworker</span><span class="o">.</span><span class="n">get_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;len&#39;</span><span class="p">)</span>
+       <span class="n">dbworker</span><span class="o">.</span><span class="n">set_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">mes</span><span class="o">.</span><span class="n">message_id</span><span class="p">)</span>
+       <span class="n">dbworker</span><span class="o">.</span><span class="n">set_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">msg</span><span class="o">.</span><span class="n">message_id</span><span class="p">)</span>
+       <span class="n">dbworker</span><span class="o">.</span><span class="n">set_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;len&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>When user give correct answer need to delete wrong messages. It wolud be done on next steps from phone and date.</p>
+<p>It means that next handlers (BDate and VKurl) need to have loops:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">dbworker</span><span class="o">.</span><span class="n">get_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;len&#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">int</span><span class="p">(</span><span class="n">dbworker</span><span class="o">.</span><span class="n">get_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;len&#39;</span><span class="p">)):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">bot</span><span class="o">.</span><span class="n">delete_message</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">dbworker</span><span class="o">.</span><span class="n">get_var</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))))</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="psql_func.html" class="btn btn-neutral float-right" title="Postgresql database methods" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="psql.html" class="btn btn-neutral" title="Creating database" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, DIT Movement.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

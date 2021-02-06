@@ -266,8 +266,8 @@ def add(msg):
 
 
 def add22(msg):
-    try:
-        a = int(msg.text)
+
+        a = str(msg.text)
         cursor.execute(
             ''' select * from participants r where r.room='%s' ''' % (
                 a))
@@ -278,8 +278,7 @@ def add22(msg):
                                        f' Личный номер: {row[0]}\n{row[3]} {row[2]} {row[1]} \nНомер телефона: {row[4]}\nГруппа {row[6]}\nНомер комнаты: {row[5]}')
         else:
             human.bot.send_message(msg.chat.id, 'такой комнаты нет')
-    except Exception:
-        human.bot.send_message(msg.chat.id, 'ошибка в номере')
+
 
 
 @bot.message_handler(commands=['lmoderNONE'])
