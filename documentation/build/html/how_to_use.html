@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Как пользоваться &mdash; MovePlus 0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="MovePlus 0 documentation" href="index.html"/>
+        <link rel="next" title="Install" href="install.html"/>
+        <link rel="prev" title="Introduction" href="introduce.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> MovePlus
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">User interface:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduce.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Как пользоваться</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Общие сведения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#web">Пользовательская часть web-интерфейса</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Главная страница</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Страница регистрации</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Страница авторизации</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c">Cтраница для авторизованных пользователей</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Административная часть web-интерфейса</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Страница авторизации</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Главная страница</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Страница просмотра</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Страница редактирования/добавления записи</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">Пользовательская и административная часть интерфейса телеграмм-бота</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">User interface:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="psql.html">DDL queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="psql.html#er-diagram">ER-Diagram</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Web backend:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/models.html">Django models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/admin.html">Django adminministration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/forms.html">Django Forms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/serializers.html">Django serializers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/views.html">Django views</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/urls.html">Django urls</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Telegram-bot backend:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="proj_struct.html">Project structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="registration.html">User registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="role_choosing.html">Choosing role in event</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Available bot commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="event_leaving.html">Leaving the event</a></li>
+<li class="toctree-l1"><a class="reference internal" href="moderating.html">Event moderating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="psql_connection.html">Connection to databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vedis_func.html">Vedis database methods</a></li>
+</ul>
+<p class="caption"><span class="caption-text">You can help us to develop project:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend/modules/about-me.html">About us</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MovePlus</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Как пользоваться</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/how_to_use.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>Как пользоваться<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>Общие сведения<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Весь проект представяет собой целую платформу для организации мероприятий. С помощью нашей системы можно собрать весь поток организационных данных в одном месте. Больше не нужно создавать огромное количество эксель таблиц, писать каждому человеку с просьбой что-то сделать или долго искать нужный файл в множестве других.</p>
+</div>
+<div class="section" id="web">
+<h2>Пользовательская часть web-интерфейса<a class="headerlink" href="#web" title="Permalink to this headline">¶</a></h2>
+<p>Данная часть веб-приложения будет использоваться всеми организаторами мероприятия.</p>
+<div class="section" id="id3">
+<h3>Главная страница<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Пользователю доступен переход на страницы регистрации и авторизации, а также страницу справки.</p>
+<img alt="_images/1.png" src="_images/1.png" />
+</div>
+<div class="section" id="id4">
+<h3>Страница регистрации<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>Для регистрации пользователь должен ввести логин, и два раза пароль.</p>
+<p>Причем, если пользователь с таким логином уже существует в базе, будет выведено текстовое сообщение</p>
+<p>На поле пароля также введены ограничения: длина - не менее 8 символов, пароль должен содержать цифры и буквы в верхнем и нижнем регистрах.</p>
+<img alt="_images/2.png" src="_images/2.png" />
+</div>
+<div class="section" id="id5">
+<h3>Страница авторизации<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/3.png" src="_images/3.png" />
+</div>
+<div class="section" id="c">
+<h3>Cтраница для авторизованных пользователей<a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/4.png" src="_images/4.png" />
+<p>На этой странице зарегестрированному пользователю доступен просмотр списка участников (вверху страницы) и расписание для организаторов(внизу страницы)</p>
+<p>Пользователю доступны следующие действия: обновить расписание - обновляет только таблицу с расписанием, переход по гиперссылке на стрину участника во  ВКонтаке и редактирование информации о пользователе.</p>
+<p>Форма редактирования участника:</p>
+<img alt="_images/4.1.png" src="_images/4.1.png" />
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Поле “комната” будет отображать только те комнаты, которые свободны, в зависимости от количества мест в комнате</p>
+</div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>Административная часть web-интерфейса<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>Страница авторизации<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>Доступ в административную часть сайта есть только у некоторых пользователей, права которых определются Суперпользователем</p>
+<img alt="_images/5.png" src="_images/5.png" />
+</div>
+<div class="section" id="id8">
+<h3>Главная страница<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>На данной странице пользователю доступны списки записей, например: Нажатие на “Участники” перевеёдт пользователя на страницу со списком участников. К аналогичному результату приведет нажатие на кнопку “изменить”. Отмечены жёлтым цветом.</p>
+<p>“Добавить” переведёт пользователя на страницу создания новой записи в том списке, напротив котоого находится кнопка</p>
+<p>Зёленым цветом выделен список последних действий всех администраторов сайта(обновляется при обновлении страницы)</p>
+<p>При нажатии на запись в списке последних действий - произойдет переход на страницу редактирования этой записи.</p>
+<img alt="_images/6.png" src="_images/6.png" />
+</div>
+<div class="section" id="id9">
+<h3>Страница просмотра<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>На этой странице пользователю доступен список всех записей. А так же набор фильтров(выделены синим), обновляющийся по мере появления новых записей в списке, поисковая строка (выделена зелёным), сортировка списка по названием того или иного поля(выделено жёлтым).</p>
+<p>Пользователь имеет возможность добавления новой записи в список - кнопка “Добавить участника” (выделена розовым) и ипри нажатии на первый атрибут люой записи откроется страница редактирования этой записи.</p>
+<p>Оранжевым выделен флажок для обработки нескольких записей одновременно, выпадающий список с действиями выделен коричневым.</p>
+<img alt="_images/7.png" src="_images/7.png" />
+</div>
+<div class="section" id="id10">
+<h3>Страница редактирования/добавления записи<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>Пользователю доступно  редактирование всех полей. Особенное внимание стоит уделить аргументам, названия которых  выделены жирным шрифтом - эти аргументы должны быть заполнены обязательно.</p>
+<p>Для удобства работы с формой добавлены выпадающий календарь для поля даты и часы для поля времени.(выделены красным и оранжевым, соответственно)</p>
+<p>Зелёным цветом выделена функция быстрого перехода к форме добавления/редактирования связанной записи, в нашем случае комнаты.</p>
+<p>В правой части пользователю доступны три действия “Сохранить и добавить другой объект” откроет чистую форму, “Сохранить и продолжить редактирование” - созраняет запись и оставляет пользователя на той же странице, “Сохранить” - сохраняет запись и выходит к списку записей.</p>
+<img alt="_images/8.png" src="_images/8.png" />
+</div>
+</div>
+<div class="section" id="id11">
+<h2>Пользовательская и административная часть интерфейса телеграмм-бота<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p>Так как пользовательский интерфйс телеграмм-бота невозможно поделить/разделить на категории, то для каждого человека,который задействован в мероприятии как модератор или участник, диалоги с ботом отличаются только в набором команд.
+Это озночает, что и у организатора, и у участника при запросе будет выскакивать один и тот же набор команд, отличающихся уровенем доступа.</p>
+<img alt="_images/commands.jpg" src="_images/commands.jpg" />
+<p>Как пример , командой ‘/leave’ может воспользоваться только участник.</p>
+<img alt="_images/leave1.jpg" src="_images/leave1.jpg" />
+<img alt="_images/leave2.jpg" src="_images/leave2.jpg" />
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="install.html" class="btn btn-neutral float-right" title="Install" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="introduce.html" class="btn btn-neutral" title="Introduction" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, DIT Movement.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

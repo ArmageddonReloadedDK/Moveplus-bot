@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Django adminministration &mdash; MovePlus 0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="MovePlus 0 documentation" href="../../index.html"/>
+        <link rel="next" title="Django Forms" href="forms.html"/>
+        <link rel="prev" title="Django models" href="models.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> MovePlus
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">User interface:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduce.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_use.html">Как пользоваться</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Telegram-bot backend:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../proj_struct.html">Project structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../psql.html">Creating database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../registration.html">User registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../role_choosing.html">Choosing role in event</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../commands.html">Available bot commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../event_leaving.html">Leaving the event</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../moderating.html">Event moderating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../psql_connection.html">Connection to databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vedis_func.html">Vedis database methods</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Web backend:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="models.html">Django models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Django adminministration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">Django Forms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="serializers.html">Django serializers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">Django views</a></li>
+<li class="toctree-l1"><a class="reference internal" href="urls.html">Django urls</a></li>
+</ul>
+<p class="caption"><span class="caption-text">You can help us to develop project:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about-me.html">About us</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MovePlus</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Django adminministration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/backend/modules/admin.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="django-adminministration">
+<h1>Django adminministration<a class="headerlink" href="#django-adminministration" title="Permalink to this headline">¶</a></h1>
+<p>Основной модуль для работы приложения администрирования</p>
+<p>Обрабатывает модели из model.py</p>
+<p>Необходимые пакеты:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span> <span class="c1"># для работы с моделями</span>
+
+<span class="n">django</span><span class="o">.</span><span class="n">contrib</span> <span class="kn">import</span> <span class="nn">messages</span> <span class="c1"># для обработки вывода сообщений</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span> <span class="c1"># для обработчика события фильтрации</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">models</span> <span class="c1"># все модели из проекта</span>
+</pre></div>
+</div>
+<p>Возможности <a class="reference external" href="https://docs.djangoproject.com/en/3.0/ref/contrib/admin/">ModelAdmin</a></p>
+<p>Класс управления моделью “Человек” - PersonAdmin:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="k">class</span> <span class="nc">PersonAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">,</span> <span class="n">RemoveAdminDefaultMessageMixin</span><span class="p">):</span>
+
+    <span class="c1"># Список отображаемых полей</span>
+
+<span class="n">list_display</span> <span class="o">=</span> <span class="p">[</span><span class="n">models</span><span class="o">.</span><span class="n">Person</span><span class="o">.</span><span class="n">i_name</span><span class="p">,</span><span class="s1">&#39;phone&#39;</span><span class="p">,</span><span class="s1">&#39;group_name&#39;</span><span class="p">,</span><span class="s1">&#39;telegram_id&#39;</span><span class="p">,</span>
+
+    <span class="s1">&#39;vk_url&#39;</span><span class="p">,</span><span class="s1">&#39;birth_date&#39;</span><span class="p">,</span><span class="s1">&#39;check_in&#39;</span><span class="p">,</span><span class="s1">&#39;arrive_status&#39;</span><span class="p">,</span><span class="s1">&#39;room&#39;</span><span class="p">,</span><span class="s1">&#39;team&#39;</span><span class="p">,]</span>
+
+    <span class="n">exclude</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="c1"># Поля запрещенные к редактированию</span>
+
+    <span class="c1"># Список фильтров, доступных пользователю</span>
+
+<span class="n">list_filter</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;group_name&#39;</span><span class="p">,</span> <span class="n">custom_titled_filter</span><span class="p">(</span><span class="s1">&#39;Номер группы&#39;</span><span class="p">)),</span>
+
+               <span class="p">(</span><span class="s1">&#39;arrive_status&#39;</span><span class="p">,</span> <span class="n">custom_titled_filter</span><span class="p">(</span><span class="s1">&#39;Статус прибытия&#39;</span><span class="p">)),</span>
+
+               <span class="p">(</span><span class="s1">&#39;room&#39;</span><span class="p">,</span> <span class="n">custom_titled_filter</span><span class="p">(</span><span class="s1">&#39;Номер комнаты&#39;</span><span class="p">)),</span>
+
+               <span class="p">(</span><span class="s1">&#39;team&#39;</span><span class="p">,</span> <span class="n">custom_titled_filter</span><span class="p">(</span><span class="s1">&#39;Команда&#39;</span><span class="p">))]</span>
+
+    <span class="c1"># Поля по которым организован поиск</span>
+
+<span class="n">search_fields</span> <span class="o">=</span> <span class="p">[</span><span class="n">field</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">Person</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">fields</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Методы класса PersonAdmin:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">get_readonly_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span> <span class="c1"># Задаём полю &quot;статус&quot; режим &quot;только чтение&quot;</span>
+
+    <span class="k">if</span> <span class="n">obj</span><span class="p">:</span>  <span class="c1"># when editing an object</span>
+
+            <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span>
+
+<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly_fields</span>
+
+    <span class="c1"># Метод для сохранения модели с</span>
+
+    <span class="c1"># проверкой на заполненность комнаты (по количеству мест в комнате)</span>
+
+    <span class="c1"># И вывод сообщения об ошибке</span>
+
+    <span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">change</span><span class="p">):</span>
+
+      <span class="n">tmp</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Participant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">room</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">room</span><span class="p">)</span>
+
+    <span class="n">rooms</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Room</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">r_id</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">room</span><span class="o">.</span><span class="n">r_id</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">tmp</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+
+        <span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="n">rooms</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">room</span><span class="o">.</span><span class="n">bed_num</span><span class="p">:</span>
+
+                <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">change</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;В комнате заняты все места&#39;</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">change</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Participant</span>
+
+    <span class="c1"># Регистрация модели в django-admin</span>
+
+    <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Participant</span><span class="p">,</span> <span class="n">PersonAdmin</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="forms.html" class="btn btn-neutral float-right" title="Django Forms" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="models.html" class="btn btn-neutral" title="Django models" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, DIT Movement.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
